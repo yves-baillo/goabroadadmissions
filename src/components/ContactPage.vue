@@ -18,7 +18,7 @@
         </div>
       </div>
     </section>
-
+    
     <!-- Contact Content Section -->
     <section class="py-16 md:py-20">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,64 +76,73 @@
                 </div>
               </div>
               
+              <!-- Social Media Section with REAL LINKS from footer -->
+              <div class="mt-8 pt-6 border-t border-gray-200">
+                <h3 class="font-semibold text-gray-800 mb-4">Connect With Us</h3>
+                <div class="flex gap-3 flex-wrap">
+                  <a
+                    v-for="(social, index) in socialLinks"
+                    :key="social.name"
+                    :href="social.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 hover:-translate-y-1"
+                    :class="social.bgColor"
+                  >
+                    <i :class="social.icon + ' text-white text-lg'"></i>
+                  </a>
+                </div>
               </div>
-              </div>
+            </div>
+          </div>
 
-          <!-- Right Column: Contact Form -->
+          <!-- Right Column: Contact Form (5 inputs only) -->
           <div class="flex-1">
             <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
               <h2 class="text-2xl font-bold text-gray-800 mb-6">Send Us a Message</h2>
               
               <form @submit.prevent="submitForm">
-                <div class="grid md:grid-cols-2 gap-5 mb-5">
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
-                    <input 
-                      type="text" 
-                      v-model="form.firstName"
-                      placeholder="Enter your first name"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
-                      required
-                    >
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
-                    <input 
-                      type="text" 
-                      v-model="form.lastName"
-                      placeholder="Enter your last name"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
-                      required
-                    >
-                  </div>
+                <!-- Full Name Field (replaces first + last name) -->
+                <div class="mb-5">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                  <input 
+                    type="text" 
+                    v-model="form.fullName"
+                    placeholder="Enter your full name"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-gray-800 bg-white"
+                    required
+                  >
                 </div>
                 
+                <!-- Email Field -->
                 <div class="mb-5">
                   <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
                   <input 
                     type="email" 
                     v-model="form.email"
                     placeholder="you@example.com"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-gray-800 bg-white"
                     required
                   >
                 </div>
                 
+                <!-- Phone Number Field -->
                 <div class="mb-5">
                   <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                   <input 
                     type="tel" 
                     v-model="form.phone"
                     placeholder="+250 788 123 456"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-gray-800 bg-white"
                   >
                 </div>
                 
+                <!-- Subject Field -->
                 <div class="mb-5">
                   <label class="block text-sm font-medium text-gray-700 mb-1">Subject *</label>
                   <select 
                     v-model="form.subject"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-gray-700"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-gray-800 bg-white"
                     required
                   >
                     <option value="">Select a subject</option>
@@ -145,13 +154,14 @@
                   </select>
                 </div>
                 
+                <!-- Message Field -->
                 <div class="mb-6">
                   <label class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
                   <textarea 
                     v-model="form.message"
                     rows="5"
                     placeholder="Tell us how we can help you..."
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition resize-none"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition resize-none text-gray-800 bg-white"
                     required
                   ></textarea>
                 </div>
@@ -242,10 +252,9 @@
 import { ref } from 'vue'
 import AppHeader from './AppHeader.vue'
 
-// Form data
+// Form data - only 5 fields (fullName, email, phone, subject, message)
 const form = ref({
-  firstName: '',
-  lastName: '',
+  fullName: '',
   email: '',
   phone: '',
   subject: '',
@@ -255,6 +264,46 @@ const form = ref({
 const isSubmitting = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
+
+// Social Media Links - SAME REAL LINKS from footer
+const socialLinks = [
+  { 
+    name: 'YouTube', 
+    url: 'https://youtube.com/@xmaopportunitiesportal', 
+    icon: 'fab fa-youtube', 
+    bgColor: 'bg-red-600 hover:bg-red-700'
+  },
+  { 
+    name: 'LinkedIn', 
+    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/', 
+    icon: 'fab fa-linkedin-in', 
+    bgColor: 'bg-blue-700 hover:bg-blue-800'
+  },
+  { 
+    name: 'Facebook', 
+    url: 'https://www.facebook.com/share/1JYd3mLj5X/', 
+    icon: 'fab fa-facebook-f', 
+    bgColor: 'bg-blue-600 hover:bg-blue-700'
+  },
+  { 
+    name: 'Instagram', 
+    url: 'https://www.instagram.com/goabroad_admissions', 
+    icon: 'fab fa-instagram', 
+    bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600'
+  },
+  { 
+    name: 'Twitter', 
+    url: 'https://x.com/GoAbroad_Go', 
+    icon: 'fab fa-twitter', 
+    bgColor: 'bg-gray-800 hover:bg-gray-700'
+  },
+  { 
+    name: 'TikTok', 
+    url: 'https://www.tiktok.com/@xmaopportunitiesportal', 
+    icon: 'fab fa-tiktok', 
+    bgColor: 'bg-gray-800 hover:bg-gray-700'
+  }
+]
 
 // FAQ data
 const faqs = ref([
@@ -299,8 +348,7 @@ const submitForm = async () => {
     
     // Reset form
     form.value = {
-      firstName: '',
-      lastName: '',
+      fullName: '',
       email: '',
       phone: '',
       subject: '',
@@ -347,5 +395,20 @@ button {
 
 .animate-fadeIn {
   animation: fadeIn 0.8s ease-out;
+}
+
+/* Ensure text in inputs appears clearly */
+input, select, textarea {
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+input:focus, select:focus, textarea:focus {
+  color: #1f2937;
 }
 </style>

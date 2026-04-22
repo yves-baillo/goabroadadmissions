@@ -3,7 +3,6 @@
     <!-- Main Footer -->
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        
         <!-- Company Info with Logo -->
         <div
           v-motion
@@ -14,7 +13,7 @@
           <img 
             src="https://i.postimg.cc/Pr3dWcht/img5-removebg-preview.png" 
             alt="GoAbroad Admissions Logo" 
-            class="w-40 h-12 object-contain"
+            class="w-50 h-12 object-contain"
           />
           <p class="text-sm leading-relaxed text-gray-300">
             Your trusted partner in transforming international education dreams into reality. 
@@ -277,12 +276,10 @@ const handleSubscribe = () => {
   }
 }
 </script>
-
 <style scoped>
-/* Footer background with image */
+/* Footer background with no image */
 .footer-bg {
   position: relative;
-  background-image: url('https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
