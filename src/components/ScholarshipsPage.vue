@@ -212,13 +212,13 @@
       v-motion
       :initial="{ opacity: 0 }"
       :visible="{ opacity: 1, transition: { delay: 400, duration: 600 } }"
-      class="bg-gradient-to-r from-purple-600 to-purple-700 py-12"
+      class="bg-gradient-to-r from-purple-900 to-purple-900 py-12"
     >
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">
           Need Help with Your Application?
         </h2>
-        <p class="text-white opacity-95 mb-6 text-lg">
+        <p class="text-white opacity-95 mb-6 text-lg" style="font-style: italic;">
           Our expert consultants can guide you through the entire scholarship application process.
         </p>
         <button 

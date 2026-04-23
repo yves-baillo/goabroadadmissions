@@ -132,7 +132,7 @@
                 type="email" 
                 placeholder="Your email address"
                 required
-                class="w-full pl-10 pr-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-[#F9A825] transition-colors text-sm text-white placeholder-gray-400"
+                class="w-60 pl-10 pr-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-[#F9A825] transition-colors text-sm text-white placeholder-gray-400"
               />
             </div>
             <button 
@@ -140,7 +140,7 @@
               v-motion
               :while-hover="{ scale: 1.02, y: -2 }"
               :while-tap="{ scale: 0.98 }"
-              class="w-full bg-[#E91E8F] hover:bg-[#F9A825] text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm"
+              class="w-52 bg- hover:bg-[#F9A825] text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm"
             >
               <i class="fas fa-paper-plane text-xs"></i>
               Subscribe
@@ -162,18 +162,7 @@
           <p class="text-gray-500">
             &copy; {{ currentYear }} GoAbroad Admissions. All rights reserved.
           </p>
-          <div class="flex gap-5">
-            <a 
-              v-for="policy in policies" 
-              :key="policy.name" 
-              :href="policy.link"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-gray-500 hover:text-[#F9A825] transition-colors"
-            >
-              {{ policy.name }}
-            </a>
-          </div>
+       
         </div>
       </div>
     </div>

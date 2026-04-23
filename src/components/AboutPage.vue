@@ -55,18 +55,7 @@
         </div>
       </div>
       
-      <!-- Slider Navigation Dots -->
-      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        <button 
-          v-for="(_, index) in heroSlides" 
-          :key="index"
-          @click="goToHeroSlide(index)"
-          :class="[
-            'w-2.5 h-2.5 rounded-full transition-all duration-300',
-            currentHeroSlide === index ? 'bg-yellow-400 scale-125' : 'bg-white/50 hover:bg-yellow-400'
-          ]"
-        ></button>
-      </div>
+    
     </section>
 
     <!-- About Section with Image Slider -->
@@ -121,7 +110,7 @@
             </p>
             <button 
               @click="openRequestForm"
-              class="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2"
+              class="bg-gradient-to-r from-purple-700 to-purple-700 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2"
             >
               <FileText class="w-4 h-4" />
               Request Assistance
@@ -147,33 +136,7 @@
                 <p class="text-xs opacity-90">{{ slide.caption.description }}</p>
               </div>
             </div>
-            
-            <!-- Slider Navigation Arrows -->
-            <button 
-              @click="changeAboutSlide(-1)"
-              class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/20 hover:bg-yellow-400 text-white hover:text-gray-800 rounded-full flex items-center justify-center transition-all"
-            >
-              <ChevronLeft class="w-4 h-4" />
-            </button>
-            <button 
-              @click="changeAboutSlide(1)"
-              class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/20 hover:bg-yellow-400 text-white hover:text-gray-800 rounded-full flex items-center justify-center transition-all"
-            >
-              <ChevronRight class="w-4 h-4" />
-            </button>
-            
-            <!-- Slider Dots -->
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
-              <button 
-                v-for="(_, index) in aboutSlides" 
-                :key="index"
-                @click="goToAboutSlide(index)"
-                :class="[
-                  'w-2 h-2 rounded-full transition-all',
-                  currentAboutSlide === index ? 'bg-yellow-400 scale-125' : 'bg-white/50 hover:bg-yellow-400'
-                ]"
-              ></button>
-            </div>
+            //arrows was here
           </div>
         </div>
       </div>
@@ -296,14 +259,14 @@
               <div class="flex flex-wrap gap-3">
                 <button 
                   @click="openRequestForm"
-                  class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                  class="bg-purple-900 hover:bg-blue-900 text-white px-10 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2"
                 >
                   <FileText class="w-4 h-4" />
                   Request Assistance
                 </button>
                 <button 
                   @click="openLinkedIn"
-                  class="border border-purple-600 text-purple-600 hover:bg-purple-50 px-5 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                  class="border border-purple-900 text-purple-900 hover:bg-purple-50 px-5 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2"
                 >
                   <Linkedin class="w-4 h-4" />
                   Connect on LinkedIn
@@ -344,10 +307,6 @@ const heroSlides = ref([
   {
     image: 'https://i.postimg.cc/6qj0g7vM/img60.jpg',
     title: 'University Placements'
-  },
-  {
-    image: 'https://i.postimg.cc/1XrTyQg0/img20.avif',
-    title: 'Scholarship Success'
   }
 ])
 

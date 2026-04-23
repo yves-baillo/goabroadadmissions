@@ -45,13 +45,13 @@
                 >
                   <button 
                     @click="scrollToScholarships"
-                    class="bg-gradient-to-r from-purple-900 to-purple-800 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
+                    class="bg-gradient-to-r from-purple-900 to-purple-1600 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     Explore Scholarships
                   </button>
                   <button 
                     @click="openGoogleForm"
-                    class="bg-gradient-to-r from-purple-900 to-purple-800 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
+                    class="bg-gradient-to-r from-purple-900 to-purple-1500 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     Request Assistance
                   </button>
@@ -263,7 +263,7 @@
         >
           <button 
             @click="openGoogleForm"
-            class="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
+            class="bg-gradient-to-r from-purple-800 to-purple-900 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
           >
             <i class="fas fa-handshake mr-1"></i> Request Service Assistance
           </button>
@@ -416,15 +416,7 @@
             :enter="{ opacity: 1, y: 0, transition: { delay: 400, duration: 400 } }"
             class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200"
           >
-            <a 
-              :href="selectedScholarship?.link" 
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bg-purple-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-purple-700 transition inline-flex items-center justify-center gap-2 flex-1 group"
-            >
-              <ExternalLink class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              Read Full Details
-            </a>
+            
             <button 
               @click="openGoogleForm"
               class="bg-yellow-400 text-gray-800 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-yellow-500 transition inline-flex items-center justify-center gap-2 flex-1 group"

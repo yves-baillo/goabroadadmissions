@@ -3,7 +3,7 @@
     <AppHeader />
     
     <!-- Contact Hero Section with Background Image -->
-    <section class="relative h-[500px] md:h-[400px] -mt-20">
+    <section class="relative h-[700px] md:h-[400px] -mt-20">
       <!-- Background Image -->
       <div class="absolute inset-0">
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://i.postimg.cc/rm0MyKch/img10.avif')">

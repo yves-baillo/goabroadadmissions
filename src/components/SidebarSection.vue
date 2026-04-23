@@ -109,75 +109,7 @@
     </div>
 
     <!-- Newsletter Subscription Section - Email Only -->
-    <div 
-      v-motion
-      :initial="{ opacity: 0, y: 30 }"
-      :enter="{ opacity: 1, y: 0 }"
-      :delay="700"
-      class="mt-8 pt-6 border-t border-gray-200"
-    >
-      <div class="text-center mb-4">
-        <div 
-          v-motion
-          :initial="{ scale: 0, rotate: -180 }"
-          :enter="{ scale: 1, rotate: 0 }"
-          :delay="800"
-          :duration="500"
-          class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3"
-        >
-          <i class="fas fa-envelope-open-text text-purple-600 text-xl"></i>
-        </div>
-        <p class="font-semibold text-gray-800 text-lg">Get Latest Updates</p>
-        <p class="text-xs text-gray-500 mt-1">Subscribe to receive scholarship alerts & opportunities</p>
-      </div>
-      
-      <form @submit.prevent="subscribeNewsletter" class="space-y-3">
-        <div 
-          v-motion
-          :initial="{ opacity: 0, y: 20 }"
-          :enter="{ opacity: 1, y: 0 }"
-          :delay="900"
-          class="relative"
-        >
-          <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-          <input 
-            type="email" 
-            v-model="subscriberEmail"
-            placeholder="Your email address"
-            required
-            class="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition text-sm text-gray-800"
-          />
-        </div>
-        
-        <div 
-          v-motion
-          :initial="{ opacity: 0, y: 20 }"
-          :enter="{ opacity: 1, y: 0 }"
-          :delay="1000"
-        >
-          <button 
-            type="submit"
-            :disabled="isSubscribing"
-            class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold py-2.5 rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            <i v-if="!isSubscribing" class="fas fa-bell text-sm"></i>
-            <i v-else class="fas fa-spinner fa-spin text-sm"></i>
-            <span>{{ isSubscribing ? 'Subscribing...' : 'Subscribe for Updates' }}</span>
-          </button>
-        </div>
-      </form>
-      
-      <p 
-        v-motion
-        :initial="{ opacity: 0 }"
-        :enter="{ opacity: 1 }"
-        :delay="1100"
-        class="text-xs text-gray-400 text-center mt-3 flex items-center justify-center gap-1"
-      >
-        <i class="fas fa-lock text-[10px]"></i>
-        <span>No spam, only latest scholarships & opportunities</span>
-      </p>
-    </div>
+   
 
     <!-- Social Media Links -->
     <div 
