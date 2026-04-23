@@ -11,15 +11,10 @@
           <div v-motion :initial="{ opacity: 0, y: -30 }" :visible="{ opacity: 1, y: 0 }">
             <Bell class="mx-auto mb-4 text-yellow-400" :size="56" />
             <h1 class="text-4xl md:text-6xl font-bold mb-4">Live Scholarship Updates</h1>
-            <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
-            <p class="text-lg md:text-xl max-w-2xl mx-auto">
-              Automatically fetching latest scholarships for you
-            </p>
-          </div>
+           </div>
         </div>
       </div>
-
-      <div class="bg-black py-12">
+        <div class="bg-black py-12">
         <div class="container mx-auto px-4">
           
           <!-- Stats Bar with Auto-Refresh Indicator -->

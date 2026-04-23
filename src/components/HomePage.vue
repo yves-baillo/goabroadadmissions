@@ -1,7 +1,8 @@
 <template>
   <div class="min-h-screen w-full bg-gray-50">
     <AppHeader />
-    <!-- Hero Section with Swiper (Dots Removed) -->
+    
+    <!-- Hero Section with Swiper -->
     <section id="home" class="h-screen min-h-[800px] relative -mt-20">
       <swiper
         :modules="[SwiperAutoplay, SwiperEffectFade]"
@@ -24,14 +25,14 @@
                 <h1 
                   v-motion
                   :initial="{ opacity: 0, y: -50 }"
-                  :visible="{ opacity: 1, y: 0, transition: { delay: 200, duration: 800 } }"
+                  :enter="{ opacity: 1, y: 0, transition: { delay: 200, duration: 800 } }"
                   class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-6 leading-tight" 
                   v-html="slide.title"
                 ></h1>
                 <p 
                   v-motion
                   :initial="{ opacity: 0, y: 30 }"
-                  :visible="{ opacity: 1, y: 0, transition: { delay: 400, duration: 800 } }"
+                  :enter="{ opacity: 1, y: 0, transition: { delay: 400, duration: 800 } }"
                   class="text-lg md:text-xl lg:text-2xl mb-12 opacity-95"
                 >
                   {{ slide.subtitle }}
@@ -39,21 +40,21 @@
                 <div 
                   v-motion
                   :initial="{ opacity: 0, scale: 0.9 }"
-                  :visible="{ opacity: 1, scale: 1, transition: { delay: 600, duration: 500 } }"
+                  :enter="{ opacity: 1, scale: 1, transition: { delay: 600, duration: 500 } }"
                   class="flex flex-wrap gap-4 justify-center"
                 >
                   <button 
                     @click="scrollToScholarships"
-                    class="bg-gradient-to-r from-purple-900 to-purple-900 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
+                    class="bg-gradient-to-r from-purple-900 to-purple-800 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     Explore Scholarships
                   </button>
                   <button 
-            @click="openGoogleForm"
-            class="bg-gradient-to-r from-purple-900 to-purple-900 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
-          >
-             Request Assistance
-          </button>
+                    @click="openGoogleForm"
+                    class="bg-gradient-to-r from-purple-900 to-purple-800 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all"
+                  >
+                    Request Assistance
+                  </button>
                 </div>
               </div>
             </div>
@@ -61,6 +62,7 @@
         </swiper-slide>
       </swiper>
     </section>
+    
     <!-- Scholarships + Contact Section -->
     <section id="scholarships-section" class="py-16 bg-gray-50">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +70,7 @@
         <div 
           v-motion
           :initial="{ opacity: 0, y: -30 }"
-          :visible="{ opacity: 1, y: 0, transition: { duration: 600 } }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
           class="text-center mb-12"
         >
           <h2 class="text-3xl md:text-4xl font-extrabold text-purple-600 mb-4">
@@ -79,7 +81,7 @@
           </p>
         </div>
 
-      <!-- Two Column Layout -->
+        <!-- Two Column Layout -->
         <div class="flex flex-col lg:flex-row gap-8">
           
           <!-- LEFT COLUMN: Scholarships -->
@@ -88,13 +90,13 @@
             <!-- Loading State -->
             <div v-if="loading" class="text-center py-12">
               <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-              <p class="mt-4 text-gray-500">Loading scholarships...</p>
+              <p class="mt-4 text-gray-500">Loading latest scholarships...</p>
             </div>
             
             <!-- Error State -->
             <div v-else-if="error" class="text-center py-12 bg-red-50 rounded-lg">
-              <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-3"></i>
-              <p class="text-red-600">Failed to load scholarships: {{ error }}</p>
+              <AlertCircle class="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <p class="text-red-600">{{ error }}</p>
               <button 
                 @click="fetchScholarships" 
                 class="mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
@@ -103,22 +105,17 @@
               </button>
             </div>
             
-            <!-- No Scholarships State -->
-            <div v-else-if="scholarships.length === 0" class="text-center py-12">
-              <i class="fas fa-book-open text-gray-400 text-4xl mb-3"></i>
-              <p class="text-gray-500">No scholarships available at the moment. Please check back later.</p>
-            </div>
-            
             <!-- Scholarships Grid -->
-            <div v-else class="space-y-6">
+            <div v-else-if="scholarships.length > 0" class="space-y-6">
               <div 
-                v-for="(scholarship, idx) in scholarships" 
+                v-for="(scholarship, idx) in scholarships.slice(0, 5)" 
                 :key="scholarship.id"
-                class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1"
                 v-motion
                 :initial="{ opacity: 0, x: -50 }"
-                :visible="{ opacity: 1, x: 0, transition: { delay: idx * 100, duration: 500 } }"
-                @motion:complete="onScholarshipMotionComplete"
+                :enter="{ opacity: 1, x: 0, transition: { delay: idx * 100, duration: 500 } }"
+                :delay="idx * 100"
+                class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group"
+                @click="openModal(scholarship)"
               >
                 <div class="flex flex-col md:flex-row">
                   <!-- Scholarship Image -->
@@ -126,55 +123,87 @@
                     <img 
                       :src="scholarship.image" 
                       :alt="scholarship.title"
-                      class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      @error="setDefaultImage"
                     >
                     <div class="absolute top-3 left-3">
-                      <span class="bg-yellow-400 text-gray-800 text-xs font-bold px-2 py-1 rounded-full">
-                        {{ scholarship.funding || 'Fully Funded' }}
+                      <span class="bg-yellow-400 text-gray-800 text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1">
+                        <Trophy class="w-3 h-3" />
+                        Fully Funded
+                      </span>
+                    </div>
+                    <div class="absolute bottom-3 right-3">
+                      <span class="bg-black/60 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                        <ExternalLink class="w-3 h-3" />
+                        {{ scholarship.source }}
                       </span>
                     </div>
                   </div>
                   
                   <!-- Scholarship Content -->
                   <div class="flex-1 p-5">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors">
                       {{ scholarship.title }}
                     </h3>
-                    <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                      <i class="fas fa-university"></i>
-                      <span>{{ scholarship.university || 'Partner Universities' }}</span>
-                    </div>
                     <div class="flex flex-wrap gap-2 mb-3">
-                      <span class="text-xs bg-gray-100 text-purple-600 px-2 py-1 rounded-full">
-                        <i class="fas fa-globe mr-1"></i>{{ scholarship.country || 'Various' }}
+                      <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
+                        <Globe class="w-3 h-3" />
+                        {{ scholarship.country }}
                       </span>
-                      <span class="text-xs bg-gray-100 text-purple-600 px-2 py-1 rounded-full">
-                        <i class="fas fa-graduation-cap mr-1"></i>{{ scholarship.degree || 'Various' }}
+                      <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
+                        <GraduationCap class="w-3 h-3" />
+                        {{ scholarship.degree }}
                       </span>
-                      <span class="text-xs bg-gray-100 text-purple-600 px-2 py-1 rounded-full">
-                        <i class="fas fa-calendar-alt mr-1"></i>{{ scholarship.deadline || 'Check Website' }}
+                      <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
+                        <Calendar class="w-3 h-3" />
+                        {{ scholarship.date }}
                       </span>
                     </div>
                     <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                      {{ scholarship.description || 'Scholarship opportunity for international students.' }}
+                      {{ scholarship.cleanDescription }}
                     </p>
                     <div class="flex gap-3">
-                      <router-link 
-                        :to="`/scholarship/${scholarship.id}`"
-                        class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition inline-block"
-                      >
-                        Read More
-                      </router-link>
                       <button 
-                        @click="openGoogleForm"
-                        class="border border-purple-600 text-purple-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-200 transition"
+                        @click.stop="openModal(scholarship)"
+                        class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition inline-flex items-center gap-2 group/btn"
                       >
+                        <BookOpen class="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                        Read More
+                      </button>
+                      <button 
+                        @click.stop="openGoogleForm"
+                        class="border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-50 transition inline-flex items-center gap-2 group/btn"
+                      >
+                        <MessageSquare class="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                         Request Assistance
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
+              
+              <!-- View All Link -->
+              <div 
+                v-motion
+                :initial="{ opacity: 0, y: 20 }"
+                :enter="{ opacity: 1, y: 0, transition: { delay: 500, duration: 500 } }"
+                class="text-center mt-6"
+              >
+                <router-link 
+                  to="/scholarships"
+                  class="inline-flex items-center gap-2 text-purple-600 font-semibold hover:text-purple-700 transition group"
+                >
+                  View All Scholarships
+                  <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </router-link>
+              </div>
+            </div>
+            
+            <!-- No Scholarships State -->
+            <div v-else class="text-center py-12 bg-gray-100 rounded-lg">
+              <BookOpen class="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <p class="text-gray-500">No scholarships available at the moment. Please check back later.</p>
             </div>
           </div>
 
@@ -182,7 +211,7 @@
           <div 
             v-motion
             :initial="{ opacity: 0, x: 50 }"
-            :visible="{ opacity: 1, x: 0, transition: { duration: 600, delay: 300 } }"
+            :enter="{ opacity: 1, x: 0, transition: { duration: 600, delay: 300 } }"
             class="lg:w-96 flex-shrink-0"
           >
             <div class="sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto">
@@ -199,7 +228,7 @@
         <div 
           v-motion 
           :initial="{ opacity: 0, y: 30 }" 
-          :visible="{ opacity: 1, y: 0, transition: { duration: 600 } }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
           class="text-center mb-12"
         >
           <h2 class="text-3xl md:text-4xl font-extrabold text-purple-600 mb-4">Our Comprehensive Services</h2>
@@ -212,11 +241,11 @@
           <div 
             v-for="(service, index) in services" 
             :key="service.title"
-            class="bg-white p-6 rounded-xl border-l-4 border-purple-600 shadow-md hover:-translate-y-1 transition-all"
             v-motion
             :initial="{ opacity: 0, y: 50 }"
-            :visible="{ opacity: 1, y: 0, transition: { delay: index * 100, duration: 500 } }"
-            @mouseenter="onServiceHover($event, index)"
+            :enter="{ opacity: 1, y: 0, transition: { delay: index * 100, duration: 500 } }"
+            :delay="index * 100"
+            class="bg-white p-6 rounded-xl border-l-4 border-purple-600 shadow-md hover:-translate-y-1 transition-all"
           >
             <div class="text-2xl text-purple-600 mb-3">
               <i :class="service.icon"></i>
@@ -229,7 +258,7 @@
         <div 
           v-motion 
           :initial="{ opacity: 0, scale: 0.9 }" 
-          :visible="{ opacity: 1, scale: 1, transition: { delay: 400, duration: 500 } }"
+          :enter="{ opacity: 1, scale: 1, transition: { delay: 400, duration: 500 } }"
           class="text-center mt-8"
         >
           <button 
@@ -246,10 +275,6 @@
     <section 
       id="founder" 
       class="py-5 relative overflow-hidden"
-      v-motion
-      :initial="{ opacity: 0, scale: 0.95 }"
-      :visible="{ opacity: 1, scale: 1, transition: { duration: 800 } }"
-      @motion:complete="onFounderSectionComplete"
     >
       <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
            style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
@@ -261,7 +286,7 @@
           <div 
             v-motion
             :initial="{ opacity: 0, scale: 0, rotate: -180 }"
-            :visible="{ opacity: 1, scale: 1, rotate: 0, transition: { delay: 200, duration: 800, type: 'spring', stiffness: 100 } }"
+            :enter="{ opacity: 1, scale: 1, rotate: 0, transition: { delay: 200, duration: 800, type: 'spring', stiffness: 100 } }"
             class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-yellow-400 shadow-2xl mx-auto md:mx-0"
           >
             <img src="https://i.postimg.cc/FzCwLMSw/img40.png" alt="Alexis Hakizimana - Founder" class="w-full h-full object-cover">
@@ -269,7 +294,7 @@
           <div 
             v-motion
             :initial="{ opacity: 0, x: 50 }"
-            :visible="{ opacity: 1, x: 0, transition: { delay: 300, duration: 600 } }"
+            :enter="{ opacity: 1, x: 0, transition: { delay: 300, duration: 600 } }"
             class="text-white"
           >
             <h2 class="text-xl md:text-2xl font-bold mb-3">Message from the founder of GoAbroad Admissions</h2>
@@ -287,17 +312,161 @@
       </div>
     </section>
 
+    <!-- Modal for Scholarship Details -->
+    <div 
+      v-if="modalVisible" 
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      @click="closeModal"
+    >
+      <div 
+        class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        @click.stop
+        v-motion
+        :initial="{ opacity: 0, scale: 0.9, y: 30 }"
+        :enter="{ opacity: 1, scale: 1, y: 0, transition: { duration: 300, type: 'spring', stiffness: 300 } }"
+        :leave="{ opacity: 0, scale: 0.9, y: 30, transition: { duration: 200 } }"
+      >
+        <!-- Modal Header -->
+        <div class="relative h-56 md:h-64 overflow-hidden">
+          <img 
+            :src="selectedScholarship?.image" 
+            :alt="selectedScholarship?.title"
+            class="w-full h-full object-cover"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <button 
+            @click="closeModal"
+            class="absolute top-4 right-4 bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors"
+          >
+            <X class="w-5 h-5 text-white" />
+          </button>
+          <div class="absolute bottom-4 left-4 right-4 text-white">
+            <span class="bg-yellow-400 text-gray-800 text-xs font-bold px-2 py-1 rounded-full inline-block mb-2 flex items-center gap-1 w-fit">
+              <Trophy class="w-3 h-3" />
+              Fully Funded
+            </span>
+            <h2 class="text-xl md:text-2xl font-bold">{{ selectedScholarship?.title }}</h2>
+          </div>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="p-6">
+          <!-- Quick Info Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div 
+              v-motion
+              :initial="{ opacity: 0, y: 20 }"
+              :enter="{ opacity: 1, y: 0, transition: { delay: 100, duration: 300 } }"
+              class="bg-purple-50 rounded-lg p-3 text-center hover:bg-purple-100 transition"
+            >
+              <Globe class="w-5 h-5 text-purple-600 mx-auto mb-1" />
+              <p class="text-xs text-gray-600">Country</p>
+              <p class="text-sm font-semibold text-purple-600">{{ selectedScholarship?.country }}</p>
+            </div>
+            <div 
+              v-motion
+              :initial="{ opacity: 0, y: 20 }"
+              :enter="{ opacity: 1, y: 0, transition: { delay: 150, duration: 300 } }"
+              class="bg-purple-50 rounded-lg p-3 text-center hover:bg-purple-100 transition"
+            >
+              <GraduationCap class="w-5 h-5 text-purple-600 mx-auto mb-1" />
+              <p class="text-xs text-gray-600">Degree</p>
+              <p class="text-sm font-semibold text-purple-600">{{ selectedScholarship?.degree }}</p>
+            </div>
+            <div 
+              v-motion
+              :initial="{ opacity: 0, y: 20 }"
+              :enter="{ opacity: 1, y: 0, transition: { delay: 200, duration: 300 } }"
+              class="bg-purple-50 rounded-lg p-3 text-center hover:bg-purple-100 transition"
+            >
+              <Calendar class="w-5 h-5 text-purple-600 mx-auto mb-1" />
+              <p class="text-xs text-gray-600">Posted</p>
+              <p class="text-sm font-semibold text-purple-600">{{ selectedScholarship?.date }}</p>
+            </div>
+            <div 
+              v-motion
+              :initial="{ opacity: 0, y: 20 }"
+              :enter="{ opacity: 1, y: 0, transition: { delay: 250, duration: 300 } }"
+              class="bg-purple-50 rounded-lg p-3 text-center hover:bg-purple-100 transition"
+            >
+              <Award class="w-5 h-5 text-purple-600 mx-auto mb-1" />
+              <p class="text-xs text-gray-600">Source</p>
+              <p class="text-sm font-semibold text-purple-600">{{ selectedScholarship?.source }}</p>
+            </div>
+          </div>
+
+          <!-- Full Description -->
+          <div 
+            v-motion
+            :initial="{ opacity: 0 }"
+            :enter="{ opacity: 1, transition: { delay: 300, duration: 400 } }"
+            class="prose max-w-none mb-6"
+          >
+            <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <BookOpen class="w-5 h-5 text-purple-600" />
+              Scholarship Details
+            </h3>
+            <div class="scholarship-content" v-html="selectedScholarship?.formattedContent"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div 
+            v-motion
+            :initial="{ opacity: 0, y: 20 }"
+            :enter="{ opacity: 1, y: 0, transition: { delay: 400, duration: 400 } }"
+            class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200"
+          >
+            <a 
+              :href="selectedScholarship?.link" 
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-purple-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-purple-700 transition inline-flex items-center justify-center gap-2 flex-1 group"
+            >
+              <ExternalLink class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Read Full Details
+            </a>
+            <button 
+              @click="openGoogleForm"
+              class="bg-yellow-400 text-gray-800 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-yellow-500 transition inline-flex items-center justify-center gap-2 flex-1 group"
+            >
+              <MessageSquare class="w-4 h-4 group-hover:scale-110 transition-transform" />
+              Request Assistance
+            </button>
+            <button 
+              @click="closeModal"
+              class="border border-gray-300 text-gray-700 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 transition inline-flex items-center justify-center gap-2"
+            >
+              <X class="w-4 h-4" />
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import AppHeader from './AppHeader.vue'
 import SidebarSection from './SidebarSection.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay, EffectFade } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
+import { 
+  Globe, 
+  GraduationCap, 
+  Trophy,
+  Calendar,
+  BookOpen,
+  MessageSquare,
+  X,
+  Award,
+  ExternalLink,
+  AlertCircle,
+  ArrowRight
+} from 'lucide-vue-next'
 
 // Swiper modules
 const SwiperAutoplay = Autoplay
@@ -356,57 +525,180 @@ const services = [
   }
 ]
 
-// API Configuration
-const API_BASE_URL = import.meta.env.PROD 
-  ? 'https://scholarship-api.onrender.com'  // Your Render backend URL
-  : 'http://localhost:3001'                 // Local development
-
-// Scholarship data from API
-const scholarships = ref([])
+// State
 const loading = ref(true)
 const error = ref(null)
+const scholarships = ref([])
+const modalVisible = ref(false)
+const selectedScholarship = ref(null)
+let refreshInterval = null
 
-// Fetch scholarships from backend
+// XMA Portal RSS Feed
+const BLOG_URL = 'https://xmaopportunitiesportal.blogspot.com'
+const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(`${BLOG_URL}/feeds/posts/default?alt=rss`)}`
+
+// Helper Functions
+function extractCountry(title) {
+  const countries = {
+    'USA': 'United States',
+    'United States': 'United States',
+    'China': 'China',
+    'Hungary': 'Hungary',
+    'Saudi Arabia': 'Saudi Arabia',
+    'France': 'France',
+    'UK': 'United Kingdom',
+    'KAUST': 'Saudi Arabia',
+    'Germany': 'Germany',
+    'Canada': 'Canada',
+    'Australia': 'Australia',
+    'Japan': 'Japan',
+    'Korea': 'South Korea'
+  }
+  
+  for (const [key, value] of Object.entries(countries)) {
+    if (title.toUpperCase().includes(key.toUpperCase())) {
+      return value
+    }
+  }
+  return 'International'
+}
+
+function extractDegree(title) {
+  if (title.includes('Master') && title.includes('PhD')) return "Master's & PhD"
+  if (title.includes('PhD') || title.includes('Doctoral')) return 'PhD'
+  if (title.includes('Master')) return "Master's"
+  if (title.includes('Bachelor')) return "Bachelor's"
+  return "Master's & PhD"
+}
+
+function cleanText(text) {
+  if (!text) return ''
+  let clean = text.replace(/<[^>]*>/g, '')
+  clean = clean.replace(/&nbsp;/g, ' ')
+  clean = clean.replace(/&amp;/g, '&')
+  clean = clean.replace(/\s+/g, ' ')
+  return clean.substring(0, 200).trim()
+}
+
+function formatContent(content) {
+  if (!content) return '<p>Full scholarship details available on the official XMA Opportunities Portal website.</p>'
+  
+  let clean = content
+  clean = clean.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+  clean = clean.replace(/<[^>]*>/g, '')
+  clean = clean.replace(/&nbsp;/g, ' ')
+  clean = clean.replace(/&amp;/g, '&')
+  
+  const paragraphs = clean.split(/\n\s*\n/).filter(p => p.trim())
+  let formatted = paragraphs.map(p => `<p class="mb-3">${p.trim()}</p>`).join('')
+  
+  if (!formatted) {
+    formatted = `<p>${clean.substring(0, 500)}</p>`
+  }
+  
+  return formatted
+}
+
+function getImageForCountry(country) {
+  const images = {
+    'United States': 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=500&fit=crop',
+    'China': 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=500&fit=crop',
+    'Hungary': 'https://images.unsplash.com/photo-1559582798-f7b7c2e6dfd0?w=800&h=500&fit=crop',
+    'Saudi Arabia': 'https://images.unsplash.com/photo-1541873676-a18131494184?w=800&h=500&fit=crop',
+    'France': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=500&fit=crop',
+    'United Kingdom': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop',
+    'Germany': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=500&fit=crop',
+    'Canada': 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800&h=500&fit=crop',
+    'Australia': 'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&h=500&fit=crop',
+    'International': 'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&h=500&fit=crop'
+  }
+  return images[country] || images['International']
+}
+
+function timeAgo(date) {
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000)
+  if (isNaN(seconds)) return "Recently"
+  if (seconds < 60) return "Just now"
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes} min ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`
+  const days = Math.floor(hours / 24)
+  if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`
+  return new Date(date).toLocaleDateString()
+}
+
+// Fetch scholarships from XMA Portal
 const fetchScholarships = async () => {
   loading.value = true
   error.value = null
   
   try {
-    console.log('📡 Fetching scholarships from:', `${API_BASE_URL}/api/scholarships`)
-    const response = await fetch(`${API_BASE_URL}/api/scholarships`)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
     
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-    }
+    const response = await fetch(API_URL, { signal: controller.signal })
+    clearTimeout(timeoutId)
+    
+    if (!response.ok) throw new Error('Network error')
     
     const data = await response.json()
-    scholarships.value = data
-    console.log('✅ Loaded', scholarships.value.length, 'scholarships')
+    
+    if (!data.items || data.items.length === 0) {
+      throw new Error('No data received')
+    }
+    
+    const scholarshipsList = data.items.slice(0, 10).map((item, index) => {
+      const title = item.title || 'Scholarship Opportunity'
+      const country = extractCountry(title)
+      
+      return {
+        id: item.guid || `post-${index}`,
+        title: title,
+        cleanDescription: cleanText(item.description || item.content || ''),
+        formattedContent: formatContent(item.content || item.description || ''),
+        link: item.link,
+        date: timeAgo(item.pubDate),
+        rawDate: new Date(item.pubDate),
+        country: country,
+        degree: extractDegree(title),
+        image: getImageForCountry(country),
+        source: 'XMA Portal'
+      }
+    })
+    
+    scholarships.value = scholarshipsList
+    console.log(`✅ Loaded ${scholarshipsList.length} scholarships from XMA Portal`)
+    
   } catch (err) {
-    console.error('❌ Error fetching scholarships:', err)
-    error.value = err.message
+    console.error('Error fetching scholarships:', err)
+    if (err.name === 'AbortError') {
+      error.value = 'Request timeout. Please check your connection.'
+    } else {
+      error.value = 'Unable to load scholarships. Please try again.'
+    }
     scholarships.value = []
   } finally {
     loading.value = false
   }
 }
 
-// Load scholarships when component mounts
-onMounted(() => {
-  fetchScholarships()
-})
-
-// Event handlers
-const onScholarshipMotionComplete = () => {
-  console.log('Scholarship animation completed')
+// Set default image on error
+const setDefaultImage = (e) => {
+  e.target.src = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=500&fit=crop'
 }
 
-const onServiceHover = (event, index) => {
-  console.log(`Service ${index} hovered`)
+// Modal functions
+const openModal = (scholarship) => {
+  selectedScholarship.value = scholarship
+  modalVisible.value = true
+  document.body.style.overflow = 'hidden'
 }
 
-const onFounderSectionComplete = () => {
-  console.log('Founder section animation completed')
+const closeModal = () => {
+  modalVisible.value = false
+  selectedScholarship.value = null
+  document.body.style.overflow = ''
 }
 
 // Methods
@@ -433,12 +725,25 @@ const handleSidebarSubmit = (formData) => {
   console.log('Form submitted from sidebar:', formData)
 }
 
-// Clean up on unmount
-onBeforeUnmount(() => {
-  const swiper = document.querySelector('.swiper')?.swiper
-  if (swiper) {
-    swiper.destroy(true, true)
-  }
+// Auto-refresh every 2 minutes
+const startAutoRefresh = () => {
+  if (refreshInterval) clearInterval(refreshInterval)
+  refreshInterval = setInterval(() => {
+    if (!modalVisible.value) {
+      fetchScholarships()
+    }
+  }, 2 * 60 * 1000)
+}
+
+// Lifecycle
+onMounted(() => {
+  fetchScholarships()
+  startAutoRefresh()
+})
+
+onUnmounted(() => {
+  if (refreshInterval) clearInterval(refreshInterval)
+  document.body.style.overflow = ''
 })
 </script>
 
@@ -483,6 +788,42 @@ onBeforeUnmount(() => {
 
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background: #7c3aed;
+}
+
+/* Modal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c084fc;
+  border-radius: 3px;
+}
+
+/* Scholarship content */
+.scholarship-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.scholarship-content p {
+  margin-bottom: 1rem;
+}
+
+.scholarship-content ul, 
+.scholarship-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.scholarship-content li {
+  margin-bottom: 0.25rem;
 }
 
 /* Smooth transitions */

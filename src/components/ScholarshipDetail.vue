@@ -1,8 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <AppHeader />
-    
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Back Button with Motion -->
       <div 
         v-motion

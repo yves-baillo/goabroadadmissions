@@ -13,7 +13,7 @@
           <img 
             src="https://i.postimg.cc/Pr3dWcht/img5-removebg-preview.png" 
             alt="GoAbroad Admissions Logo" 
-            class="w-50 h-12 object-contain"
+            class="w-45 h-12 object-contain"
           />
           <p class="text-sm leading-relaxed text-gray-300">
             Your trusted partner in transforming international education dreams into reality. 
@@ -27,8 +27,8 @@
             :visible="{ opacity: 1, y: 0, transition: { delay: 200, duration: 500 } }"
             class="pt-4"
           >
-            <p class="text-center text-sm text-gray-400 mb-3">Follow us on social media</p>
-            <div class="flex justify-center gap-2 flex-wrap">
+        
+            <div class="flex justify-left gap-1 flex-wrap">
               <a
                 v-for="(social, index) in socialLinks"
                 :key="social.name"

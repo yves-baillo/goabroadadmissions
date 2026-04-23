@@ -1,7 +1,8 @@
-  <template>
+<template>
   <div class="min-h-screen w-full bg-gray-50">
     <AppHeader />
-     <!-- Hero Section with Full-Width Background Slider (Reed College Style) -->
+    
+    <!-- Hero Section with Full-Width Background Slider (Reed College Style) -->
     <section class="relative h-screen min-h-[600px] overflow-hidden">
       <!-- Background Image Slider -->
       <div class="absolute inset-0">
@@ -20,6 +21,7 @@
           <div class="absolute inset-0 bg-black/50"></div>
         </div>
       </div>     
+      
       <!-- Centered Content Overlay -->
       <div class="absolute inset-0 z-10 flex items-center justify-center text-center text-white">
         <div 
@@ -36,11 +38,11 @@
           </p>
           <div class="flex flex-wrap gap-4 justify-center">
             <button 
-              @click="openCalendly"
+              @click="openRequestForm"
               class="bg-yellow-400 hover:bg-yellow-300 text-purple-900 px-6 py-3 rounded-lg text-sm font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
             >
-              <Calendar class="w-4 h-4" />
-              Book Free Consultation
+              <FileText class="w-4 h-4" />
+              Request Assistance
             </button>
             <button 
               @click="scrollToAbout"
@@ -52,24 +54,60 @@
           </div>
         </div>
       </div>
+      
+      <!-- Slider Navigation Dots -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <button 
+          v-for="(_, index) in heroSlides" 
+          :key="index"
+          @click="goToHeroSlide(index)"
+          :class="[
+            'w-2.5 h-2.5 rounded-full transition-all duration-300',
+            currentHeroSlide === index ? 'bg-yellow-400 scale-125' : 'bg-white/50 hover:bg-yellow-400'
+          ]"
+        ></button>
+      </div>
     </section>
 
     <!-- About Section with Image Slider -->
     <section id="about" class="py-20 bg-white">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-center mb-4">
+        <div 
+          v-motion
+          :initial="{ opacity: 0, y: 20 }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
+          class="flex justify-center mb-4"
+        >
           <span class="bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
             <Info class="w-3 h-3" />
             ABOUT US
           </span>
         </div>
-        <h2 class="text-3xl md:text-4xl font-extrabold text-purple-600 text-center mb-4">About GoAbroad Admissions</h2>
-        <p class="text-gray-500 text-center max-w-3xl mx-auto mb-12 text-sm">
+        
+        <h2 
+          v-motion
+          :initial="{ opacity: 0, y: 20 }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 600, delay: 100 } }"
+          class="text-3xl md:text-4xl font-extrabold text-purple-600 text-center mb-4"
+        >
+          About GoAbroad Admissions
+        </h2>
+        
+        <p 
+          v-motion
+          :initial="{ opacity: 0, y: 20 }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 600, delay: 200 } }"
+          class="text-gray-500 text-center max-w-3xl mx-auto mb-12 text-sm"
+        >
           Bridging the gap between students and global education opportunities
         </p>
         
         <div class="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+          <div 
+            v-motion
+            :initial="{ opacity: 0, x: -30 }"
+            :enter="{ opacity: 1, x: 0, transition: { duration: 700, delay: 300 } }"
+          >
             <h2 class="text-2xl md:text-3xl font-bold text-purple-600 mb-6">Your Pathway to Global Education</h2>
             <p class="text-gray-600 mb-4 text-sm">
               At GoAbroad Admissions, we specialize in eliminating the gap between students and their global education dreams.
@@ -82,16 +120,21 @@
               transformative scholarships and educational opportunities.
             </p>
             <button 
-              @click="openCalendly"
+              @click="openRequestForm"
               class="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2"
             >
-              <Calendar class="w-4 h-4" />
-              Start Your Journey
+              <FileText class="w-4 h-4" />
+              Request Assistance
             </button>
           </div>
 
           <!-- About Slider -->
-          <div class="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-2xl">
+          <div 
+            v-motion
+            :initial="{ opacity: 0, scale: 0.95 }"
+            :enter="{ opacity: 1, scale: 1, transition: { duration: 700, delay: 400 } }"
+            class="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-2xl"
+          >
             <div 
               v-for="(slide, index) in aboutSlides" 
               :key="index"
@@ -104,10 +147,37 @@
                 <p class="text-xs opacity-90">{{ slide.caption.description }}</p>
               </div>
             </div>
+            
+            <!-- Slider Navigation Arrows -->
+            <button 
+              @click="changeAboutSlide(-1)"
+              class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/20 hover:bg-yellow-400 text-white hover:text-gray-800 rounded-full flex items-center justify-center transition-all"
+            >
+              <ChevronLeft class="w-4 h-4" />
+            </button>
+            <button 
+              @click="changeAboutSlide(1)"
+              class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/20 hover:bg-yellow-400 text-white hover:text-gray-800 rounded-full flex items-center justify-center transition-all"
+            >
+              <ChevronRight class="w-4 h-4" />
+            </button>
+            
+            <!-- Slider Dots -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
+              <button 
+                v-for="(_, index) in aboutSlides" 
+                :key="index"
+                @click="goToAboutSlide(index)"
+                :class="[
+                  'w-2 h-2 rounded-full transition-all',
+                  currentAboutSlide === index ? 'bg-yellow-400 scale-125' : 'bg-white/50 hover:bg-yellow-400'
+                ]"
+              ></button>
+            </div>
           </div>
         </div>
       </div>
-</section>
+    </section>
 
     <!-- Mission & Vision Section -->
     <section class="py-20 bg-gray-100">
@@ -116,8 +186,8 @@
           <!-- Mission Card -->
           <div 
             v-motion
-            :initial="{ opacity: 0, y: 30 }"
-            :enter="{ opacity: 1, y: 0, transition: { duration: 500 } }"
+            :initial="{ opacity: 0, y: 40 }"
+            :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
             class="bg-white rounded-2xl p-8 shadow-lg text-center hover:-translate-y-2 transition-all border-t-4 border-purple-500"
           >
             <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -134,8 +204,8 @@
           <!-- Vision Card -->
           <div 
             v-motion
-            :initial="{ opacity: 0, y: 30 }"
-            :enter="{ opacity: 1, y: 0, transition: { duration: 500, delay: 100 } }"
+            :initial="{ opacity: 0, y: 40 }"
+            :enter="{ opacity: 1, y: 0, transition: { duration: 600, delay: 150 } }"
             class="bg-white rounded-2xl p-8 shadow-lg text-center hover:-translate-y-2 transition-all border-t-4 border-purple-500"
           >
             <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -155,7 +225,12 @@
     <!-- Core Values Section -->
     <section class="py-20 bg-white">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <div 
+          v-motion
+          :initial="{ opacity: 0, y: 20 }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 500 } }"
+          class="text-center mb-12"
+        >
           <span class="bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-sm font-semibold inline-block mb-3 flex items-center gap-2 justify-center">
             <Heart class="w-3 h-3" />
             OUR VALUES
@@ -163,6 +238,7 @@
           <h2 class="text-3xl md:text-4xl font-extrabold text-purple-600 mb-4">What We Stand For</h2>
           <p class="text-gray-600 max-w-2xl mx-auto">The principles that guide everything we do</p>
         </div>
+        
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div 
             v-for="(value, index) in coreValues" 
@@ -185,13 +261,24 @@
     <!-- Founder Section -->
     <section class="py-20 bg-gray-100">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <div 
+          v-motion
+          :initial="{ opacity: 0, y: 20 }"
+          :enter="{ opacity: 1, y: 0, transition: { duration: 500 } }"
+          class="text-center mb-12"
+        >
           <span class="bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-sm font-semibold inline-block mb-3">
             MEET THE FOUNDER
           </span>
           <h2 class="text-3xl md:text-4xl font-extrabold text-purple-600 mb-4">The Vision Behind GoAbroad</h2>
         </div>
-        <div class="max-w-4xl mx-auto bg-white rounded-2xl overflow-hidden shadow-xl">
+        
+        <div 
+          v-motion
+          :initial="{ opacity: 0, scale: 0.95 }"
+          :enter="{ opacity: 1, scale: 1, transition: { duration: 700, delay: 200 } }"
+          class="max-w-4xl mx-auto bg-white rounded-2xl overflow-hidden shadow-xl"
+        >
           <div class="flex flex-col md:flex-row">
             <div class="md:w-2/5">
               <img 
@@ -203,15 +290,25 @@
             <div class="md:w-3/5 p-8">
               <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ founder.name }}</h3>
               <p class="text-purple-600 font-semibold mb-4">{{ founder.role }}</p>
-              <p class="text-gray-600 leading-relaxed">
+              <p class="text-gray-600 leading-relaxed mb-6">
                 {{ founder.bio }}
               </p>
-             <button 
-                        @click="openGoogleForm"
-                        class="border border-purple-600 text-purple-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-200 transition"
-                      >
-                        Request Assistance
-                      </button>
+              <div class="flex flex-wrap gap-3">
+                <button 
+                  @click="openRequestForm"
+                  class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                >
+                  <FileText class="w-4 h-4" />
+                  Request Assistance
+                </button>
+                <button 
+                  @click="openLinkedIn"
+                  class="border border-purple-600 text-purple-600 hover:bg-purple-50 px-5 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                >
+                  <Linkedin class="w-4 h-4" />
+                  Connect on LinkedIn
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -224,7 +321,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import AppHeader from './AppHeader.vue'
 import { 
-  Calendar, 
   ChevronLeft, 
   ChevronRight, 
   Target, 
@@ -234,19 +330,24 @@ import {
   Info,
   Star,
   Handshake,
-  Lightbulb
+  Lightbulb,
+  FileText,
+  Linkedin
 } from 'lucide-vue-next'
 
-// Hero Slides (Reed College Style)
+// Hero Slides
 const heroSlides = ref([
   {
     image: 'https://i.postimg.cc/rm0MyKch/img10.avif',
     title: 'Global Education Opportunities'
   },
- 
   {
     image: 'https://i.postimg.cc/6qj0g7vM/img60.jpg',
     title: 'University Placements'
+  },
+  {
+    image: 'https://i.postimg.cc/1XrTyQg0/img20.avif',
+    title: 'Scholarship Success'
   }
 ])
 
@@ -303,7 +404,7 @@ const coreValues = ref([
 const founder = ref({
   name: 'Alexis Hakizimana',
   role: 'Founder & Lead Consultant',
-  bio: 'Amherst College alumnus with expertise in scholarship applications. Dedicated to helping students worldwide access quality international education through personalized guidance and support.',
+  bio: 'Amherst College alumnus with expertise in scholarship applications. Dedicated to helping students worldwide access quality international education through personalized guidance and support. With over 8 years of experience in international admissions, Alexis has helped hundreds of students secure fully-funded scholarships to top universities across the globe.',
   image: 'https://i.postimg.cc/FzCwLMSw/img40.png'
 })
 
@@ -320,7 +421,6 @@ const changeHeroSlide = (direction) => {
 
 const goToHeroSlide = (index) => {
   currentHeroSlide.value = index
-  // Reset timer on manual click
   if (heroInterval) {
     clearInterval(heroInterval)
     startHeroAutoSlide()
@@ -353,8 +453,13 @@ const startAboutAutoSlide = () => {
   }, 5000)
 }
 
-const openGoogleForm = () => {
+// Working Button Functions
+const openRequestForm = () => {
   window.open('https://docs.google.com/forms/d/e/1FAIpQLSdel6b8-7EZ3nr1OleLs9bEony-WgymoLs1l0Dag0FyFxtSPQ/viewform', '_blank')
+}
+
+const openLinkedIn = () => {
+  window.open('https://www.linkedin.com/company/goabroad-admissions', '_blank')
 }
 
 const scrollToAbout = () => {

@@ -19,7 +19,7 @@
           <img 
             src="https://i.postimg.cc/Pr3dWcht/img5-removebg-preview.png" 
             alt="GoAbroad Admissions Logo" 
-            class="h-13 w-auto" 
+            class="h-15 w-60" 
           >
         </div>
         
