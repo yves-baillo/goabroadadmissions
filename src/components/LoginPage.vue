@@ -153,7 +153,7 @@ const showPassword = ref(false)
 // ✅ CORRECT: uses 'email', not 'username'
 const loginForm = ref({ email: '', password: '' })
 
-const API_URL = 'https://newbackend-u9k9.vercel.app/api'
+const API_URL = 'https://newbackend-gamma.vercel.app/api'
 
 const handleLogin = async () => {
   loginError.value = ''
@@ -352,7 +352,7 @@ const showPassword = ref(false)
 // ✅ CORRECT: uses 'email', not 'username'
 const loginForm = ref({ email: '', password: '' })
 
-const API_URL = 'https://newbackend-u9k9.vercel.app/api'
+const API_URL = 'https://newbackend-gamma.vercel.app/api'
 
 const handleLogin = async () => {
   loginError.value = ''
@@ -551,7 +551,7 @@ const showPassword = ref(false)
 // ✅ CORRECT: uses 'email', not 'username'
 const loginForm = ref({ email: '', password: '' })
 
-const API_URL = 'https://newbackend-u9k9.vercel.app/api'
+const API_URL = 'https://newbackend-gamma.vercel.app/api'
 
 const handleLogin = async () => {
   loginError.value = ''
