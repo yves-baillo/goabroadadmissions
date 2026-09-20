@@ -675,7 +675,7 @@ const teamMembers = [
     name: 'Valens Iraguha',
     role: 'Deputy Director for Special Projects and Student Affairs',
     bio: 'Final year medical student at the University of Rwanda. Member of the Medical Students Association (MEDSAR) and special adviser to the president of MEDSAR.',
-    image: '',
+    image: 'https://i.postimg.cc/s2w7BvM6/Whats-App-Image-2026-09-20-at-10-08-29-PM.jpg',
     socials: [
       { name: 'LinkedIn', url: 'https://www.linkedin.com/in/iraguha-valens-82a385378?utm_source=share_via&utm_content=profile&utm_medium=member_ios', icon: Linkedin }
     ]
@@ -684,7 +684,7 @@ const teamMembers = [
     name: 'Themistocles Ntaganira',
     role: 'Mentor',
     bio: 'Junior at Wesleyan University, USA pursuing a BA. Alumni and mentor of the Equity College Counseling Program. Has helped 10+ students access local and international scholarships. Currently IT Services Specialist at Wesleyan University and part-time mentor at GoAbroad Admissions.',
-    image: '',
+    image: 'https://i.postimg.cc/fLzCFGd4/Whats-App-Image-2026-09-20-at-9-58-18-PM.jpg',
     socials: [
       { name: 'LinkedIn', url: '#', icon: Linkedin }
     ]
