@@ -8,6 +8,7 @@ import ScholarshipsPage from '../components/ScholarshipsPage.vue'
 import Dashboard from '../components/Dashboard.vue'
 import PrivacyPage from '../components/PrivacyPage.vue'
 import TermsPage from '../components/TermsPage.vue'
+import SupportPage from '../components/SupportPage.vue'
 import LoginPage from '../components/LoginPage.vue'
 
 const routes = [
@@ -58,6 +59,11 @@ const routes = [
   {
     path: '/terms',
     component: TermsPage,
+    meta: { requiresAuth: false, showLayout: true }
+  },
+  {
+    path: '/support',
+    component: SupportPage,
     meta: { requiresAuth: false, showLayout: true }
   },
   {

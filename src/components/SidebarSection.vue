@@ -77,7 +77,7 @@
         </div>
         <div class="flex-1">
           <p class="font-semibold text-gray-800">Call Us</p>
-          <p class="text-sm text-gray-500"> +250 789 410 951</p>
+          <p class="text-sm text-gray-500"> +250 785 197 380</p>
         </div>
         <i class="fas fa-chevron-right text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition"></i>
       </a>

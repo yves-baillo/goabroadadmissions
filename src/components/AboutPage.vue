@@ -366,7 +366,7 @@ const coreValues = ref([
 const founder = ref({
   name: 'Alexis Hakizimana',
   role: 'Founder & Lead Consultant',
-  bio: 'Amherst College alumnus with expertise in scholarship applications. Dedicated to helping students worldwide access quality international education through personalized guidance and support. With over 8 years of experience in international admissions, Alexis has helped hundreds of students secure fully-funded scholarships to top universities across the globe.',
+  bio: 'Former Amherst College student with expertise in scholarship and global universities applications. Dedicated to helping students worldwide access quality international education through personalized guidance and support. With over 8 years of experience in international admissions, Alexis has helped hundreds of students secure fully-funded scholarships to top universities across the globe.',
   image: 'https://i.postimg.cc/FzCwLMSw/img40.png'
 })
 

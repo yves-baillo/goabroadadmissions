@@ -1,11 +1,8 @@
 <template>
   <header 
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-    :class="[
-      isScrolled 
-        ? 'bg-gradient-to-r from-black/80 via-black/70 to-black/80 backdrop-blur-2xl shadow-2xl shadow-yellow-500/10 py-3 border-b border-yellow-400/30' 
-        : 'bg-transparent py-6'
-    ]"
+    :style="headerStyle"
+    :class="isScrolled ? 'py-3' : 'py-6'"
   >
     <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center">
@@ -25,7 +22,7 @@
             class="nav-link"
             :class="[
               { 'active': $route.path === '/' },
-              'text-gray-300 hover:text-yellow-400'
+              'text-white hover:text-yellow-300'
             ]"
           >
             <span>Home</span>
@@ -36,7 +33,7 @@
             class="nav-link"
             :class="[
               { 'active': $route.path === '/scholarships' },
-              'text-gray-300 hover:text-yellow-400'
+              'text-white hover:text-yellow-300'
             ]"
           >
             <span>Scholarships</span>
@@ -47,7 +44,7 @@
             class="nav-link"
             :class="[
               { 'active': $route.path === '/about' },
-              'text-gray-300 hover:text-yellow-400'
+              'text-white hover:text-yellow-300'
             ]"
           >
             <span>About</span>
@@ -58,17 +55,17 @@
             class="nav-link"
             :class="[
               { 'active': $route.path === '/contact' },
-              'text-gray-300 hover:text-yellow-400'
+              'text-white hover:text-yellow-300'
             ]"
           >
             <span>Contact</span>
           </router-link>
 
           <!-- Notifications Icon -->
-          <div ref="notificationRoot" class="relative ml-4 pl-4 border-l border-yellow-400/20">
+          <div ref="notificationRoot" class="relative ml-4">
             <button 
               @click="toggleNotifications"
-              class="relative p-2.5 rounded-lg transition-all duration-300 text-gray-400 hover:bg-yellow-400/10 hover:text-yellow-400 hover:shadow-lg hover:shadow-yellow-400/20"
+              class="relative p-2.5 rounded-lg transition-all duration-300 text-white/90 hover:bg-yellow-400/10 hover:text-yellow-300 hover:shadow-lg hover:shadow-yellow-400/20"
             >
               <Bell :size="20" />
               <span 
@@ -82,12 +79,12 @@
             <!-- Notifications Dropdown -->
             <div 
               v-if="showNotifications"
-              class="absolute right-0 mt-3 w-96 bg-gradient-to-br from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl shadow-black/50 overflow-hidden z-50 border border-yellow-400/20 animate-in fade-in duration-300"
+              class="absolute right-0 mt-3 w-96 bg-gradient-to-br from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl shadow-black/50 overflow-hidden z-50 animate-in fade-in duration-300"
             >
-              <div class="p-5 border-b border-yellow-400/20 flex justify-between items-center bg-gradient-to-r from-yellow-400/5 to-transparent">
+              <div class="p-5 flex justify-between items-center">
                 <div>
-                  <h3 class="font-bold text-white text-sm">Latest News</h3>
-                  <p class="text-xs text-gray-400">Stay updated with opportunities</p>
+                  <h3 class="font-bold text-white text-sm">Latest Scholarships</h3>
+                  <p class="text-xs text-gray-400">New opportunities from your dashboard</p>
                 </div>
                 <button 
                   v-if="unreadCount > 0"
@@ -103,58 +100,69 @@
                   <div class="w-6 h-6 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
                 </div>
 
+                <!-- Error state -->
+                <div v-else-if="notificationError" class="text-center py-8 px-4">
+                  <Bell :size="32" class="text-gray-600 mx-auto mb-2" />
+                  <p class="text-gray-400 text-sm">Could not load notifications</p>
+                  <button 
+                    @click="fetchNotifications"
+                    class="mt-2 text-xs text-yellow-400 hover:text-yellow-300 font-semibold"
+                  >
+                    Try again
+                  </button>
+                </div>
+
                 <!-- Empty state -->
                 <div v-else-if="notifications.length === 0" class="text-center py-8">
                   <Bell :size="32" class="text-gray-600 mx-auto mb-2" />
-                  <p class="text-gray-400 text-sm">No new notifications</p>
-                  <p class="text-gray-500 text-xs mt-1">Check back later for updates!</p>
+                  <p class="text-gray-400 text-sm">No scholarships yet</p>
+                  <p class="text-gray-500 text-xs mt-1">New scholarships added to the dashboard will appear here.</p>
                 </div>
 
                 <!-- Notifications list -->
                 <div 
                   v-for="notification in notifications" 
                   :key="notification.id"
-                  class="p-4 hover:bg-yellow-400/5 transition-all duration-200 cursor-pointer border-b border-white/5 last:border-0 rounded-lg m-1 group"
-                  :class="{ 'bg-yellow-400/10 border-l-2 border-l-yellow-400': !notification.read }"
+                  class="p-4 hover:bg-yellow-400/5 transition-all duration-200 cursor-pointer rounded-lg m-1 group"
+                  :class="{ 'bg-yellow-400/10': !notification.read }"
                   @click="markAsRead(notification)"
                 >
                   <div class="flex items-start gap-3">
                     <div class="flex-shrink-0 mt-1">
-                      <div v-if="notification.type === 'scholarship'" class="w-2.5 h-2.5 bg-green-400 rounded-full shadow-lg shadow-green-400/50"></div>
-                      <div v-else-if="notification.type === 'deadline'" class="w-2.5 h-2.5 bg-red-400 rounded-full shadow-lg shadow-red-400/50"></div>
-                      <div v-else-if="notification.type === 'news'" class="w-2.5 h-2.5 bg-blue-400 rounded-full shadow-lg shadow-blue-400/50"></div>
-                      <div v-else class="w-2.5 h-2.5 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50"></div>
+                      <img v-if="notification.image" :src="notification.image" alt="" class="h-10 w-10 rounded-lg object-cover shadow-lg" @error="onImageError" />
+                      <div v-else class="w-2.5 h-2.5 bg-green-400 rounded-full shadow-lg shadow-green-400/50"></div>
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                       <div class="flex items-start justify-between gap-2">
-                        <p class="text-sm font-semibold text-white group-hover:text-yellow-400 transition-colors">{{ notification.title }}</p>
-                        <span class="text-[10px] text-gray-500 whitespace-nowrap">{{ formatTime(notification.created_at || notification.createdAt) }}</span>
+                        <p class="text-sm font-semibold text-white group-hover:text-yellow-400 transition-colors truncate">{{ notification.title }}</p>
+                        <span class="text-[10px] text-gray-500 whitespace-nowrap flex-shrink-0">{{ formatTime(notification.createdAt) }}</span>
                       </div>
-                      <p class="text-xs text-gray-400 mt-1">{{ notification.message }}</p>
-                      <div v-if="notification.scholarship_id || notification.scholarshipId" class="mt-2">
+                      <p class="text-xs text-gray-400 mt-1 line-clamp-2">{{ notification.message }}</p>
+                      <div class="mt-2">
                         <router-link 
-                          :to="`/scholarship/${notification.scholarship_id || notification.scholarshipId}`"
+                          to="/scholarships"
                           class="text-xs text-yellow-400 hover:text-yellow-300 font-medium inline-flex items-center gap-1"
-                          @click.stop
+                          @click.stop="closeNotifications"
                         >
-                          View Scholarship
+                          View Scholarships
                           <span class="group-hover:translate-x-1 transition-transform">→</span>
                         </router-link>
                       </div>
                     </div>
-                    <div v-if="!notification.read" class="w-2 h-2 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 mt-1"></div>
+                    <div v-if="!notification.read" class="w-2 h-2 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 mt-1 flex-shrink-0"></div>
                   </div>
                 </div>
               </div>
-              <div class="p-4 text-center border-t border-yellow-400/20 bg-gradient-to-r from-yellow-400/5 to-transparent">
-                <router-link 
-                  to="/news" 
-                  class="text-xs text-yellow-400 hover:text-yellow-300 font-semibold inline-flex items-center gap-1 transition-all"
-                  @click="closeNotifications"
+              <div class="p-4 text-center">
+                <button 
+                  @click="refreshNotifications"
+                  :disabled="isLoadingNotifications"
+                  class="text-xs text-yellow-400 hover:text-yellow-300 font-semibold inline-flex items-center gap-1 transition-all disabled:opacity-50"
                 >
-                  View All News
-                  <span class="group-hover:translate-x-1 transition-transform">→</span>
-                </router-link>
+                  <span v-if="isLoadingNotifications" class="w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></span>
+                  <span v-else>↻</span>
+                  Refresh
+                </button>
               </div>
             </div>
           </div>
@@ -163,7 +171,7 @@
         <!-- Mobile Menu Button -->
         <button 
           @click="toggleMobileMenu"
-          class="md:hidden p-2.5 rounded-lg transition-all duration-300 text-gray-400 hover:bg-yellow-400/10 hover:text-yellow-400 hover:shadow-lg hover:shadow-yellow-400/20"
+          class="md:hidden p-2.5 rounded-lg transition-all duration-300 text-white hover:bg-yellow-400/10 hover:text-yellow-300 hover:shadow-lg hover:shadow-yellow-400/20"
         >
           <Menu :size="24" v-if="!mobileMenuOpen" />
           <X :size="24" v-else />
@@ -173,7 +181,7 @@
       <!-- Mobile Menu -->
       <div 
         v-show="mobileMenuOpen"
-        class="md:hidden mt-4 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-xl shadow-2xl border border-yellow-400/20 animate-in fade-in duration-300"
+        class="md:hidden mt-4 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-xl shadow-2xl animate-in fade-in duration-300"
       >
         <div class="py-3 space-y-1">
           <router-link 
@@ -213,11 +221,11 @@
           </router-link>
 
           <!-- Mobile Notifications -->
-          <div class="border-t border-yellow-400/20 my-3 pt-3">
+          <div class="my-3 pt-3">
             <div class="flex items-center justify-between px-4 py-3">
               <div class="flex items-center gap-2">
                 <Bell :size="16" class="text-yellow-400" />
-                <span class="text-sm font-semibold text-gray-300">Latest News</span>
+                <span class="text-sm font-semibold text-gray-300">Latest Scholarships</span>
                 <span 
                   v-if="unreadCount > 0" 
                   class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-[9px] font-bold rounded-full px-2 py-0.5 shadow-lg"
@@ -225,27 +233,20 @@
                   {{ unreadCount }}
                 </span>
               </div>
-              <router-link 
-                to="/news" 
-                class="text-xs text-yellow-400 hover:text-yellow-300 font-semibold"
-                @click="closeMobileMenu"
-              >
-                View All
-              </router-link>
             </div>
             <div class="space-y-2 px-3 max-h-64 overflow-y-auto">
               <div 
                 v-for="notification in notifications.slice(0, 3)" 
                 :key="notification.id"
-                class="p-3 rounded-lg bg-gradient-to-r from-yellow-400/5 to-transparent border-l-2 border-yellow-400"
+                class="p-3 rounded-lg bg-gradient-to-r from-yellow-400/5 to-transparent"
                 :class="!notification.read ? 'bg-yellow-400/10' : 'bg-white/5'"
               >
                 <p class="text-xs font-semibold text-gray-200">{{ notification.title }}</p>
-                <p class="text-xs text-gray-400 mt-0.5">{{ notification.message }}</p>
-                <span class="text-[10px] text-gray-500 mt-1 block">{{ formatTime(notification.created_at || notification.createdAt) }}</span>
+                <p class="text-xs text-gray-400 mt-0.5 line-clamp-2">{{ notification.message }}</p>
+                <span class="text-[10px] text-gray-500 mt-1 block">{{ formatTime(notification.createdAt) }}</span>
               </div>
               <div v-if="notifications.length === 0" class="text-center py-4">
-                <p class="text-gray-400 text-xs">No notifications yet</p>
+                <p class="text-gray-400 text-xs">No scholarships yet</p>
               </div>
             </div>
           </div>
@@ -258,156 +259,112 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { Menu, X, Bell } from 'lucide-vue-next'
-import axios from 'axios'
+import { readDatabase } from '../lib/jsonbin'
 
 const mobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const showNotifications = ref(false)
 const notificationRoot = ref(null)
 
-// Notifications data
+const headerStyle = computed(() => {
+  if (!isScrolled.value) {
+    return {
+      background: 'transparent',
+      borderBottom: 'none',
+      boxShadow: 'none',
+      backdropFilter: 'none'
+    }
+  }
+
+  return {
+    background: 'linear-gradient(90deg, rgba(250, 204, 21, 0.9), rgba(252, 211, 77, 0.85), rgba(107, 33, 168, 0.9))',
+    borderBottom: '1px solid rgba(254, 240, 138, 0.4)',
+    boxShadow: '0 12px 30px rgba(88, 28, 135, 0.22)',
+    backdropFilter: 'blur(10px)'
+  }
+})
+
+/* -------- Notifications from JSONBin (scholarships only) -------- */
 const notifications = ref([])
 const isLoadingNotifications = ref(false)
+const notificationError = ref(false)
 
-// ✅ UPDATED: Use your actual Vercel backend URL
-const API_URL = 'https://newbackend-gamma.vercel.app/api'
+const READ_KEYS_STORAGE = 'goabroad_notifications_read'
 
-// Fetch notifications from your Vercel backend
-const fetchNotifications = async () => {
-  isLoadingNotifications.value = true
+const readIds = ref(loadReadIds())
+
+function loadReadIds() {
   try {
-    const response = await axios.get(`${API_URL}/notifications`, {
-      params: {
-        limit: 50
-      },
-      timeout: 10000
+    const raw = localStorage.getItem(READ_KEYS_STORAGE)
+    const parsed = raw ? JSON.parse(raw) : []
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function saveReadIds() {
+  try {
+    localStorage.setItem(READ_KEYS_STORAGE, JSON.stringify(readIds.value.slice(-500)))
+  } catch {}
+}
+
+/* Only scholarships are turned into notifications now */
+function buildNotificationsFromDatabase(db) {
+  const items = []
+  const scholarships = Array.isArray(db?.scholarships) ? db.scholarships : []
+
+  scholarships
+    .slice()
+    .sort((a, b) => new Date(b.createdAt || b.created_at || 0) - new Date(a.createdAt || a.created_at || 0))
+    .slice(0, 15)
+    .forEach((s) => {
+      items.push({
+        id: `sch-${s.id}`,
+        type: 'scholarship',
+        title: s.title || 'New scholarship',
+        message: `${s.country || 'International'} · ${s.degree || 'All levels'}${s.deadline ? ' · Deadline ' + s.deadline : ''}`,
+        image: s.image_url || s.image,
+        createdAt: s.createdAt || s.created_at || new Date().toISOString(),
+      })
     })
-    
-    if (response.data && Array.isArray(response.data)) {
-      notifications.value = response.data
-      saveNotificationsToLocal()
-    } else if (response.data && response.data.notifications) {
-      notifications.value = response.data.notifications
-      saveNotificationsToLocal()
-    }
-  } catch (error) {
-    console.error('Failed to fetch notifications:', error)
-    // Load from localStorage as fallback
-    loadNotificationsFromLocal()
-    
-    // If still no notifications, add demo ones
-    if (notifications.value.length === 0) {
-      addDemoNotifications()
-    }
+
+  return items
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 15)
+    .map((n) => ({ ...n, read: readIds.value.includes(n.id) }))
+}
+
+async function fetchNotifications() {
+  isLoadingNotifications.value = true
+  notificationError.value = false
+  try {
+    const db = await readDatabase()
+    notifications.value = buildNotificationsFromDatabase(db)
+  } catch (err) {
+    console.error('[Notifications] Failed to load from JSONBin:', err)
+    notificationError.value = true
+    notifications.value = []
   } finally {
     isLoadingNotifications.value = false
   }
 }
 
-// Add demo notifications for testing
-const addDemoNotifications = () => {
-  const demos = [
-    {
-      id: 'demo-1',
-      type: 'scholarship',
-      title: '🎓 New Scholarship Available!',
-      message: 'Fulbright Scholarship 2025 is now open for applications',
-      created_at: new Date().toISOString(),
-      read: false
-    },
-    {
-      id: 'demo-2',
-      type: 'deadline',
-      title: '⏰ Deadline Approaching',
-      message: 'Chevening Scholarship deadline is in 7 days',
-      created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-      read: false
-    },
-    {
-      id: 'demo-3',
-      type: 'news',
-      title: '📢 Application Tips',
-      message: 'New guide available for writing a strong Statement of Purpose',
-      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-      read: true
-    }
-  ]
-  notifications.value = demos
-  saveNotificationsToLocal()
-}
+const refreshNotifications = () => fetchNotifications()
 
-// Mark a notification as read
-const markNotificationAsRead = async (notificationId) => {
-  try {
-    await axios.patch(`${API_URL}/notifications/${notificationId}/read`)
-    
-    // Update local state
-    const notification = notifications.value.find(n => n.id === notificationId)
-    if (notification) {
-      notification.read = true
-      saveNotificationsToLocal()
-    }
-  } catch (error) {
-    console.error('Failed to mark notification as read:', error)
-    // Still update locally even if API fails
-    const notification = notifications.value.find(n => n.id === notificationId)
-    if (notification) {
-      notification.read = true
-      saveNotificationsToLocal()
-    }
-  }
-}
+const unreadCount = computed(() => notifications.value.filter(n => !n.read).length)
 
-// Mark all notifications as read
-const markAllNotificationsAsRead = async () => {
-  try {
-    await axios.patch(`${API_URL}/notifications/read-all`)
-    
-    notifications.value.forEach(notification => {
-      notification.read = true
-    })
-    saveNotificationsToLocal()
-  } catch (error) {
-    console.error('Failed to mark all as read:', error)
-    notifications.value.forEach(notification => {
-      notification.read = true
-    })
-    saveNotificationsToLocal()
-  }
-}
-
-// Save to localStorage
-const saveNotificationsToLocal = () => {
-  localStorage.setItem('scholarship_notifications', JSON.stringify(notifications.value))
-}
-
-const loadNotificationsFromLocal = () => {
-  const saved = localStorage.getItem('scholarship_notifications')
-  if (saved) {
-    try {
-      notifications.value = JSON.parse(saved)
-    } catch (e) {
-      console.error('Failed to load saved notifications', e)
-    }
-  }
-}
-
-// Compute unread count
-const unreadCount = computed(() => {
-  return notifications.value.filter(n => !n.read).length
-})
-
-// Format time relative
 const formatTime = (dateString) => {
   if (!dateString) return 'Just now'
-  
   const date = new Date(dateString)
+  if (isNaN(date.getTime())) return 'Just now'
+
   const now = new Date()
   const diffMs = now - date
   const diffMins = Math.floor(diffMs / 60000)
   const diffHours = Math.floor(diffMs / 3600000)
   const diffDays = Math.floor(diffMs / 86400000)
-  
+
   if (diffMins < 1) return 'Just now'
   if (diffMins < 60) return `${diffMins} min ago`
   if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
@@ -417,7 +374,7 @@ const formatTime = (dateString) => {
 
 const toggleNotifications = () => {
   showNotifications.value = !showNotifications.value
-  if (showNotifications.value && notifications.value.length === 0) {
+  if (showNotifications.value) {
     fetchNotifications()
   }
 }
@@ -428,19 +385,31 @@ const closeNotifications = () => {
 
 const markAsRead = (notification) => {
   if (!notification.read) {
-    markNotificationAsRead(notification.id)
-  }
-  if (notification.scholarship_id || notification.scholarshipId) {
-    closeNotifications()
+    notification.read = true
+    if (!readIds.value.includes(notification.id)) {
+      readIds.value.push(notification.id)
+      saveReadIds()
+    }
   }
 }
 
 const markAllAsRead = () => {
-  markAllNotificationsAsRead()
+  notifications.value.forEach((n) => {
+    n.read = true
+    if (!readIds.value.includes(n.id)) {
+      readIds.value.push(n.id)
+    }
+  })
+  saveReadIds()
+}
+
+const onImageError = (e) => {
+  e.target.onerror = null
+  e.target.style.display = 'none'
 }
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
+  isScrolled.value = window.scrollY >= 1
 }
 
 const toggleMobileMenu = () => {
@@ -452,93 +421,104 @@ const closeMobileMenu = () => {
   showNotifications.value = false
 }
 
-// Handle clicking outside notifications dropdown
 const handleClickOutside = (event) => {
   if (!showNotifications.value) return
   if (notificationRoot.value && notificationRoot.value.contains(event.target)) return
   showNotifications.value = false
 }
 
-// Request notification permission
-const requestNotificationPermission = () => {
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission()
-  }
-}
-
-// Poll for new notifications
 let pollInterval = null
 const startPolling = () => {
   if (pollInterval) clearInterval(pollInterval)
-  
-  // Initial fetch
   fetchNotifications()
-  
-  // Poll every 30 seconds
   pollInterval = setInterval(() => {
-    if (!showNotifications.value) {
+    if (document.visibilityState === 'visible' && !showNotifications.value) {
       fetchNotifications()
     }
-  }, 30000)
+  }, 60000)
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   document.addEventListener('click', handleClickOutside)
   handleScroll()
-  
-  // Load from localStorage first for immediate display
-  loadNotificationsFromLocal()
-  
-  // Request notification permission
-  requestNotificationPermission()
-  
-  // Start polling for notifications
   startPolling()
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   document.removeEventListener('click', handleClickOutside)
-  
   if (pollInterval) clearInterval(pollInterval)
 })
 </script>
 
 <style scoped>
-@reference "tailwindcss";
-
 .nav-link {
-  @apply relative px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm;
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .nav-link::before {
   content: '';
-  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full transition-all duration-300;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #facc15, #eab308);
+  border-radius: 9999px;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover::before {
-  @apply w-full shadow-lg shadow-yellow-400/50;
+  width: 100%;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
 }
 
 .nav-link.active {
-  @apply font-bold text-yellow-400 bg-yellow-400/10;
+  font-weight: 700;
+  color: #facc15;
+  background-color: rgba(250, 204, 21, 0.1);
 }
 
 .nav-link.active::before {
-  @apply w-full shadow-lg shadow-yellow-400/50;
+  width: 100%;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
 }
 
 .mobile-nav-link {
-  @apply flex items-center gap-3 px-4 py-3.5 rounded-lg transition-all duration-300 font-medium text-sm mx-2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0 0.5rem;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .mobile-nav-link:hover {
-  @apply bg-yellow-400/10 text-yellow-400;
+  background-color: rgba(250, 204, 21, 0.1);
+  color: #facc15;
 }
 
 .mobile-nav-link.active {
-  @apply bg-gradient-to-r from-yellow-400/20 to-transparent text-yellow-400 font-bold;
+  background: linear-gradient(to right, rgba(250, 204, 21, 0.2), transparent);
+  color: #facc15;
+  font-weight: 700;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -561,12 +541,8 @@ onUnmounted(() => {
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .animate-spin {
