@@ -299,10 +299,9 @@ const saveMessageLocally = (message) => {
 /* ---------- Social media ---------- */
 const socialLinks = [
   { name: 'YouTube',   url: 'https://youtube.com/@goabroadadmissions?si=qSQhGhqrOCEOG7A7', icon: 'fab fa-youtube',    bgColor: 'bg-red-600 hover:bg-red-700' },
-  { name: 'LinkedIn',  url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/',   icon: 'fab fa-linkedin-in', bgColor: 'bg-blue-700 hover:bg-blue-800' },
+  { name: 'LinkedIn',  url: 'https://www.linkedin.com/company/goabroad-admissions-rwanda/',   icon: 'fab fa-linkedin-in', bgColor: 'bg-blue-700 hover:bg-blue-800' },
   { name: 'Facebook',  url: 'https://www.facebook.com/share/1Hj4121teB/?mibextid=wwXIfr',   icon: 'fab fa-facebook-f',  bgColor: 'bg-blue-600 hover:bg-blue-700' },
   { name: 'Instagram', url: 'https://www.instagram.com/go_abroad_admissions_rw?stkn=MTI0MGlxa3Uya25icg%3D%3D&utm_source=qr', icon: 'fab fa-instagram', bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600' },
-  { name: 'Twitter',   url: 'https://x.com/GoAbroad_Go',                                     icon: 'fab fa-twitter',     bgColor: 'bg-gray-800 hover:bg-gray-700' },
   { name: 'TikTok',    url: 'https://www.tiktok.com/@goabroadadmissions?_r=1&_t=ZP-99tiKvjCr43', icon: 'fab fa-tiktok',  bgColor: 'bg-gray-800 hover:bg-gray-700' }
 ]
 
