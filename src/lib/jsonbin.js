@@ -1,7 +1,9 @@
 const JSONBIN_API = 'https://api.jsonbin.io/v3/b'
 
-const JSONBIN_KEY = import.meta.env.VITE_JSONBIN_KEY || ''
-const JSONBIN_BIN_ID = import.meta.env.VITE_JSONBIN_BIN_ID || ''
+// Hardcoded credentials — env vars weren't surviving the Pxxl build.
+// This file is client-side anyway; the key is visible in the bundle no matter what.
+const JSONBIN_KEY = '$2a$10$Kxyjo9JsKFP5Q5mvoLVrbesySn6z4HJqjwMi4pCMV3w/3QX.vlxay'
+const JSONBIN_BIN_ID = '6ab0031dac6210605ae30b40'
 
 export const isJsonBinConfigured = () => Boolean(JSONBIN_KEY && JSONBIN_BIN_ID)
 
