@@ -913,18 +913,18 @@ const teamMembers = [
     name: 'Valens Iraguha',
     role: 'Deputy Director for Special Projects and Student Affairs',
     bio: 'Final year medical student at the University of Rwanda. Member of the Medical Students Association (MEDSAR) and special adviser to the president of MEDSAR.',
-    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&q=80',
+    image: 'https://i.postimg.cc/s2w7BvM6/Whats-App-Image-2026-09-20-at-10-08-29-PM.jpg',
     socials: [
-      { name: 'LinkedIn', url: '#', icon: Linkedin }
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/iraguha-valens-82a385378?utm_source=share_via&utm_content=profile&utm_medium=member_ios', icon: Linkedin }
     ]
   },
   {
     name: 'Themistocles Ntaganira',
     role: 'Mentor',
     bio: 'Junior at Wesleyan University, USA pursuing a BA. Alumni and mentor of the Equity College Counseling Program. Has helped 10+ students access local and international scholarships. Currently IT Services Specialist at Wesleyan University and part-time mentor at GoAbroad Admissions.',
-    image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=400&h=400&fit=crop&q=80',
+    image: 'https://i.postimg.cc/fLzCFGd4/Whats-App-Image-2026-09-20-at-9-58-18-PM.jpg',
     socials: [
-      { name: 'LinkedIn', url: '#', icon: Linkedin }
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/themistocles-ntaganira-86667a266?utm_source=share_via&utm_content=profile&utm_medium=member_ios', icon: Linkedin }
     ]
   }
 ]
