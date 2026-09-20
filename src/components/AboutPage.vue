@@ -20,7 +20,7 @@
           <!-- Dark Overlay for text readability -->
           <div class="absolute inset-0 bg-black/50"></div>
         </div>
-      </div>     
+      </div>      
       
       <!-- Centered Content Overlay -->
       <div class="absolute inset-0 z-10 flex items-center justify-center text-center text-white">
@@ -54,8 +54,6 @@
           </div>
         </div>
       </div>
-      
-    
     </section>
 
     <!-- About Section with Image Slider -->
@@ -136,7 +134,6 @@
                 <p class="text-xs opacity-90">{{ slide.caption.description }}</p>
               </div>
             </div>
-            //arrows was here
           </div>
         </div>
       </div>
@@ -304,7 +301,6 @@ const heroSlides = ref([
     image: 'https://i.postimg.cc/rm0MyKch/img10.avif',
     title: 'Global Education Opportunities'
   },
-   
   {
     image: 'https://i.postimg.cc/6qj0g7vM/img60.jpg',
     title: 'University Placements'
@@ -327,14 +323,12 @@ const aboutSlides = ref([
       description: 'Direct connections with international universities'
     }
   },
-  
   {
     image: 'https://i.postimg.cc/CK99DVt8/IMG-0924.avif',
     caption: {
       title: 'Workshop Sessions',
       description: 'Interactive guidance sessions for applicants'
-    },
-    
+    }
   }
 ])
 
@@ -421,7 +415,7 @@ const openRequestForm = () => {
 }
 
 const openLinkedIn = () => {
-  window.open('https://www.linkedin.com/in/goabroad-admissions-361873399/', '_blank')
+  window.open('https://www.linkedin.com/in/alexis-hakizimana-935080421?utm_source=share_via&utm_content=profile&utm_medium=member_ios', '_blank')
 }
 
 const scrollToAbout = () => {

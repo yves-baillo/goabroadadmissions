@@ -29,27 +29,24 @@
             Dream Global, Start Here.
           </p>
 
-          <div class="pt-2">
-            <div class="flex flex-wrap gap-2">
-              <a
-                v-for="(social, index) in socialLinks"
-                :key="social.name"
-                :href="social.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                v-motion
-                :initial="{ opacity: 0, scale: 0 }"
-                :visible="{ opacity: 1, scale: 1 }"
-                :delay="200 + index * 50"
-                :duration="400"
-                class="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-[#F9A825] hover:to-[#F57F17] flex items-center justify-center text-gray-300 hover:text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#F9A825]/30 group animate-bounce-on-hover"
-                :title="social.name"
-                :aria-label="`Visit our ${social.name} page`"
-              >
-                <component :is="social.icon" class="w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
-              </a>
-            </div>
-          </div>
+          <!-- Social icons (no wrapper divs) -->
+          <a
+            v-for="(social, index) in socialLinks"
+            :key="social.name"
+            :href="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            v-motion
+            :initial="{ opacity: 0, scale: 0 }"
+            :visible="{ opacity: 1, scale: 1 }"
+            :delay="200 + index * 50"
+            :duration="400"
+            class="inline-flex mr-2 mb-2 w-11 h-11 rounded-2xl bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-[#F9A825] hover:to-[#F57F17] items-center justify-center text-gray-300 hover:text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#F9A825]/30 group animate-bounce-on-hover"
+            :title="social.name"
+            :aria-label="`Visit our ${social.name} page`"
+          >
+            <component :is="social.icon" class="w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
+          </a>
         </div>
 
         <!-- Quick Links -->

@@ -8,17 +8,31 @@
         <img
           src="https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg?auto=compress&cs=tinysrgb&w=1920&h=600&fit=crop"
           alt="Scholarship Opportunities"
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover scale-105"
         >
-        <div class="absolute inset-0 bg-gradient-to-r from-purple-600/40 to-purple-500/60"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-600/50 to-purple-800/70"></div>
+
+        <!-- Ambient orbs -->
+        <div class="absolute top-10 -left-20 w-80 h-80 bg-yellow-400/15 rounded-full blur-3xl animate-float-slow pointer-events-none"></div>
+        <div class="absolute bottom-0 right-10 w-96 h-96 bg-fuchsia-400/10 rounded-full blur-3xl animate-float-delayed pointer-events-none"></div>
       </div>
 
       <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 flex items-center justify-center" style="min-height: 400px; height: 50vh;">
         <div>
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4">
+          <h1
+            v-motion
+            :initial="{ opacity: 0, y: -40, scale: 0.95 }"
+            :enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 150, duration: 900, type: 'spring', stiffness: 70 } }"
+            class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4"
+          >
             All Scholarships
           </h1>
-          <p class="text-xl md:text-2xl opacity-95 max-w-3xl mx-auto">
+          <p
+            v-motion
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{ opacity: 1, y: 0, transition: { delay: 400, duration: 800, type: 'spring', stiffness: 90 } }"
+            class="text-xl md:text-2xl opacity-95 max-w-3xl mx-auto"
+          >
             Discover all fully-funded opportunities to study at top universities worldwide
           </p>
         </div>
@@ -26,11 +40,25 @@
     </section>
 
     <!-- Scholarships Grid -->
-    <section class="py-16">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-16 relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+      <!-- Ambient blobs -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute top-40 -right-32 w-96 h-96 bg-purple-300/15 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-40 -left-32 w-96 h-96 bg-yellow-300/15 rounded-full blur-3xl animate-float-delayed"></div>
+      </div>
+
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
         <!-- Loading Skeleton -->
         <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div v-for="i in 4" :key="i" class="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse">
+          <div
+            v-for="i in 4"
+            :key="i"
+            v-motion
+            :initial="{ opacity: 0, y: 30 }"
+            :enter="{ opacity: 1, y: 0, transition: { delay: i * 100, duration: 500 } }"
+            class="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse"
+          >
             <div class="flex flex-col md:flex-row">
               <div class="md:w-48 h-48 bg-gray-200"></div>
               <div class="flex-1 p-5">
@@ -50,10 +78,16 @@
         </div>
 
         <!-- Error State -->
-        <div v-else-if="error" class="text-center py-12 bg-red-50 rounded-lg">
-          <AlertCircle class="w-12 h-12 text-red-500 mx-auto mb-4" />
+        <div
+          v-else-if="error"
+          v-motion
+          :initial="{ opacity: 0, scale: 0.9, y: 30 }"
+          :enter="{ opacity: 1, scale: 1, y: 0, transition: { duration: 600, type: 'spring', stiffness: 100 } }"
+          class="text-center py-12 bg-red-50 rounded-lg"
+        >
+          <AlertCircle class="w-12 h-12 text-red-500 mx-auto mb-4 animate-bounce-slow" />
           <p class="text-red-600 mb-4">{{ error }}</p>
-          <button @click="fetchScholarships" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+          <button @click="fetchScholarships" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition hover:-translate-y-0.5">
             Refresh
           </button>
         </div>
@@ -61,9 +95,18 @@
         <!-- Main Content -->
         <div v-else>
           <!-- Filters Section -->
-          <div class="mb-8 bg-white rounded-xl shadow-md p-6">
+          <div
+            v-motion
+            :initial="{ opacity: 0, y: 40 }"
+            :enter="{ opacity: 1, y: 0, transition: { duration: 700, type: 'spring', stiffness: 80 } }"
+            class="mb-8 bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-500"
+          >
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
+              <div
+                v-motion
+                :initial="{ opacity: 0, x: -30 }"
+                :enter="{ opacity: 1, x: 0, transition: { delay: 200, duration: 500 } }"
+              >
                 <label class="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
                   <Search class="w-4 h-4 text-purple-600" />
                   Search Scholarships
@@ -72,18 +115,22 @@
                   type="text"
                   v-model="searchQuery"
                   placeholder="Search by title or country..."
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-gray-900"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 transition-all duration-300"
                 >
               </div>
 
-              <div>
+              <div
+                v-motion
+                :initial="{ opacity: 0, y: 20 }"
+                :enter="{ opacity: 1, y: 0, transition: { delay: 350, duration: 500 } }"
+              >
                 <label class="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
                   <Globe class="w-4 h-4 text-purple-600" />
                   Filter by Country
                 </label>
                 <select
                   v-model="selectedCountry"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white transition-all duration-300"
                 >
                   <option value="">All Countries</option>
                   <option v-for="country in uniqueCountries" :key="country" :value="country">
@@ -92,31 +139,41 @@
                 </select>
               </div>
 
-              <div>
+              <div
+                v-motion
+                :initial="{ opacity: 0, x: 30 }"
+                :enter="{ opacity: 1, x: 0, transition: { delay: 500, duration: 500 } }"
+              >
                 <label class="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
                   <Calendar class="w-4 h-4 text-purple-600" />
                   Sort by Date
                 </label>
                 <select
                   v-model="sortOrder"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white transition-all duration-300"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
+                  <option value="popular">Most Viewed</option>
                 </select>
               </div>
             </div>
 
-            <div class="mt-4 flex flex-wrap justify-between items-center gap-2">
+            <div
+              v-motion
+              :initial="{ opacity: 0, y: 20 }"
+              :enter="{ opacity: 1, y: 0, transition: { delay: 650, duration: 500 } }"
+              class="mt-4 flex flex-wrap justify-between items-center gap-2"
+            >
               <div class="text-sm font-medium text-purple-600 bg-purple-50 inline-flex items-center gap-2 px-4 py-2 rounded-lg">
                 <BarChart3 class="w-4 h-4" />
                 Found {{ filteredScholarships.length }} scholarship(s)
               </div>
               <button
                 @click="resetFilters"
-                class="text-gray-500 hover:text-purple-600 text-sm flex items-center gap-1 transition-colors"
+                class="text-gray-500 hover:text-purple-600 text-sm flex items-center gap-1 transition-colors group"
               >
-                <RefreshCw class="w-4 h-4" />
+                <RefreshCw class="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
                 Reset Filters
               </button>
             </div>
@@ -127,24 +184,48 @@
             <div
               v-for="(scholarship, idx) in filteredScholarships"
               :key="scholarship.id"
-              class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group"
+              v-motion
+              :initial="{ opacity: 0, y: 60, scale: 0.95 }"
+              :enter="{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: {
+                  delay: Math.min(idx * 100, 800),
+                  duration: 600,
+                  type: 'spring',
+                  stiffness: 90,
+                  damping: 14
+                }
+              }"
+              :hovered="{
+                y: -8,
+                scale: 1.01,
+                transition: { duration: 300, type: 'spring', stiffness: 250, damping: 20 }
+              }"
+              class="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer group relative"
               @click="openModal(scholarship)"
             >
+              <!-- Top accent bar on hover -->
+              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-yellow-400 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 z-10"></div>
+
               <div class="flex flex-col md:flex-row">
                 <div class="md:w-48 h-48 md:h-auto relative overflow-hidden">
                   <img
                     :src="getScholarshipImage(scholarship, idx)"
                     :alt="scholarship.title"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                     @error="setDefaultImage"
                   >
-                  <div class="absolute top-3 left-3 flex gap-1">
-                    <span class="bg-yellow-400 text-gray-800 text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1">
+                  <div class="absolute inset-0 bg-gradient-to-t from-purple-900/0 via-purple-900/0 to-purple-900/0 group-hover:from-purple-900/40 transition-all duration-500 pointer-events-none"></div>
+
+                  <div class="absolute top-3 left-3 flex gap-1 flex-wrap">
+                    <span class="bg-yellow-400 text-gray-800 text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1 group-hover:scale-105 transition-transform duration-300">
                       <Trophy class="w-3 h-3" />
                       Fully Funded
                     </span>
-                    <span v-if="scholarship.featured" class="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1">
+                    <span v-if="scholarship.featured" class="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1 group-hover:scale-105 transition-transform duration-300">
                       <Star class="w-3 h-3" />
                       Featured
                     </span>
@@ -152,21 +233,25 @@
                 </div>
 
                 <div class="flex-1 p-5">
-                  <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors">
+                  <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors duration-300">
                     {{ scholarship.title }}
                   </h3>
                   <div class="flex flex-wrap gap-2 mb-3">
-                    <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
+                    <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 group-hover:bg-purple-50 group-hover:scale-105 transition-all duration-300">
                       <Globe class="w-3 h-3" />
                       {{ scholarship.country || 'International' }}
                     </span>
-                    <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
+                    <span class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 group-hover:bg-purple-50 group-hover:scale-105 transition-all duration-300">
                       <GraduationCap class="w-3 h-3" />
                       {{ scholarship.degree || 'All levels' }}
                     </span>
-                    <span v-if="scholarship.deadline" class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
+                    <span v-if="scholarship.deadline" class="text-xs bg-gray-100 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 group-hover:bg-purple-50 group-hover:scale-105 transition-all duration-300">
                       <Calendar class="w-3 h-3" />
                       {{ formatDate(scholarship.deadline) }}
+                    </span>
+                    <span class="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded-full font-medium inline-flex items-center gap-1 group-hover:scale-105 transition-all duration-300">
+                      <Eye class="w-3 h-3" />
+                      {{ scholarship.views || 0 }}
                     </span>
                   </div>
                   <p class="text-gray-600 text-sm mb-4 line-clamp-3">
@@ -175,16 +260,16 @@
                   <div class="flex gap-3">
                     <button
                       @click.stop="openModal(scholarship)"
-                      class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition inline-flex items-center gap-2"
+                      class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg"
                     >
-                      <BookOpen class="w-4 h-4" />
+                      <BookOpen class="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
                       Read More
                     </button>
                     <button
                       @click.stop="openInquiryForm(scholarship)"
-                      class="border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-50 transition inline-flex items-center gap-2"
+                      class="border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-50 transition inline-flex items-center gap-2 hover:-translate-y-0.5"
                     >
-                      <MessageSquare class="w-4 h-4" />
+                      <MessageSquare class="w-4 h-4 transition-transform duration-300 group-hover:-rotate-12" />
                       Request Assistance
                     </button>
                   </div>
@@ -194,8 +279,14 @@
           </div>
 
           <!-- Empty State -->
-          <div v-else class="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100">
-            <BookOpen class="w-20 h-20 text-gray-300 mx-auto mb-4" />
+          <div
+            v-else
+            v-motion
+            :initial="{ opacity: 0, scale: 0.95, y: 30 }"
+            :enter="{ opacity: 1, scale: 1, y: 0, transition: { duration: 600, type: 'spring', stiffness: 100 } }"
+            class="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100"
+          >
+            <BookOpen class="w-20 h-20 text-gray-300 mx-auto mb-4 animate-bounce-slow" />
             <p class="text-gray-500 font-medium text-lg">
               {{ allScholarships.length === 0 ? 'No scholarships yet' : 'No scholarships match your criteria' }}
             </p>
@@ -207,7 +298,7 @@
             <button
               v-if="allScholarships.length > 0"
               @click="resetFilters"
-              class="mt-6 inline-flex items-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 transition"
+              class="mt-6 inline-flex items-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 transition hover:-translate-y-0.5 hover:shadow-lg"
             >
               <RefreshCw class="w-4 h-4" />
               Reset Filters
@@ -223,222 +314,253 @@
         <img
           src="https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80"
           alt="Students studying together"
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover scale-105"
         >
-        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-indigo-900/80"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/85 to-indigo-900/85"></div>
+
+        <div class="absolute top-10 right-20 w-72 h-72 bg-yellow-400/15 rounded-full blur-3xl animate-float-slow pointer-events-none"></div>
+        <div class="absolute bottom-0 left-20 w-80 h-80 bg-purple-400/15 rounded-full blur-3xl animate-float-delayed pointer-events-none"></div>
       </div>
 
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+        <h2
+          v-motion
+          :initial="{ opacity: 0, y: 40 }"
+          :visible-once="{ opacity: 1, y: 0, transition: { duration: 700, type: 'spring', stiffness: 80 } }"
+          class="text-3xl md:text-4xl font-bold text-white mb-4"
+        >
           Need Help with Your Application?
         </h2>
-        <p class="text-white opacity-95 mb-6 text-lg md:text-xl max-w-2xl mx-auto">
+        <p
+          v-motion
+          :initial="{ opacity: 0, y: 30 }"
+          :visible-once="{ opacity: 1, y: 0, transition: { delay: 200, duration: 700 } }"
+          class="text-white opacity-95 mb-6 text-lg md:text-xl max-w-2xl mx-auto"
+        >
           Our expert consultants can guide you through the entire scholarship application process.
         </p>
         <button
+          v-motion
+          :initial="{ opacity: 0, scale: 0.85, y: 20 }"
+          :visible-once="{ opacity: 1, scale: 1, y: 0, transition: { delay: 400, duration: 600, type: 'spring', stiffness: 120 } }"
+          :hovered="{ scale: 1.05, y: -4, transition: { duration: 250, type: 'spring', stiffness: 300 } }"
           @click="openCalendly"
-          class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg text-base font-semibold hover:shadow-xl hover:-translate-y-1 transition-all inline-flex items-center gap-2"
+          class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg text-base font-semibold hover:shadow-xl transition-all inline-flex items-center gap-2 group/cta"
         >
-          <Calendar class="w-5 h-5" />
+          <Calendar class="w-5 h-5 group-hover/cta:rotate-12 transition-transform duration-300" />
           Book a Free Consultation
         </button>
       </div>
     </section>
 
     <!-- Modal for Scholarship Details -->
-    <div
-      v-if="modalVisible && selectedScholarship"
-      class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4"
-      @click="closeModal"
-    >
+    <Transition name="modal">
       <div
-        class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-        @click.stop
+        v-if="modalVisible && selectedScholarship"
+        class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4"
+        @click="closeModal"
       >
-        <!-- Modal Header -->
-        <div class="relative h-64 md:h-80 overflow-hidden">
-          <img
-            :src="getModalImage(selectedScholarship)"
-            :alt="selectedScholarship.title"
-            class="w-full h-full object-cover"
-          >
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-          <button
-            @click="closeModal"
-            class="absolute top-5 right-5 bg-black/50 hover:bg-black/70 rounded-full p-2 transition-all duration-300 hover:scale-110"
-          >
-            <X class="w-5 h-5 text-white" />
-          </button>
-          <div class="absolute bottom-6 left-6 right-6 text-white">
-            <div class="flex gap-3 mb-3">
-              <span class="bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center gap-1 shadow-lg">
-                <Trophy class="w-3 h-3" />
-                Fully Funded
-              </span>
-              <span
-                class="text-white text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center gap-1 shadow-lg backdrop-blur-md"
-                :class="selectedScholarship.featured ? 'bg-purple-600/90' : 'bg-blue-600/90'"
-              >
-                <ExternalLink class="w-3 h-3" />
-                {{ selectedScholarship.featured ? 'Featured' : 'Scholarship' }}
-              </span>
-            </div>
-            <h2 class="text-2xl md:text-3xl font-bold leading-tight">{{ selectedScholarship.title }}</h2>
-          </div>
-        </div>
-
-        <!-- Modal Content -->
-        <div class="p-8">
-          <!-- Quick Info Cards -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md transition-all duration-300 group">
-              <Globe class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-              <p class="text-xs text-gray-600 font-medium">Country</p>
-              <p class="text-sm font-bold text-purple-700 mt-1">{{ selectedScholarship.country || 'International' }}</p>
-            </div>
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md transition-all duration-300 group">
-              <GraduationCap class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-              <p class="text-xs text-gray-600 font-medium">Degree</p>
-              <p class="text-sm font-bold text-purple-700 mt-1">{{ selectedScholarship.degree || 'All levels' }}</p>
-            </div>
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md transition-all duration-300 group">
-              <Calendar class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-              <p class="text-xs text-gray-600 font-medium">Deadline</p>
-              <p class="text-sm font-bold text-purple-700 mt-1">{{ formatDate(selectedScholarship.deadline) || 'Open' }}</p>
-            </div>
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md transition-all duration-300 group">
-              <Award class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-              <p class="text-xs text-gray-600 font-medium">Status</p>
-              <p class="text-sm font-bold text-purple-700 mt-1">{{ selectedScholarship.status || 'Active' }}</p>
-            </div>
-          </div>
-
-          <!-- Full Description -->
-          <div class="prose max-w-none mb-8">
-            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <BookOpen class="w-5 h-5 text-purple-700" />
-              Scholarship Details
-            </h3>
-
-            <div class="mb-6">
-              <h4 class="font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                <FileText class="w-4 h-4 text-purple-600" />
-                Description
-              </h4>
-              <div class="text-gray-600 leading-relaxed whitespace-pre-line">
-                {{ selectedScholarship.description || 'No description provided.' }}
-              </div>
-            </div>
-
-            <div v-if="selectedScholarship.eligibility" class="mb-6">
-              <h4 class="font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                <CheckCircle class="w-4 h-4 text-green-600" />
-                Eligibility Criteria
-              </h4>
-              <div class="text-gray-600 leading-relaxed whitespace-pre-line">
-                {{ selectedScholarship.eligibility }}
-              </div>
-            </div>
-
-            <div v-if="selectedScholarship.benefits" class="mb-6">
-              <h4 class="font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                <Gift class="w-4 h-4 text-yellow-600" />
-                Benefits
-              </h4>
-              <div class="text-gray-600 leading-relaxed whitespace-pre-line">
-                {{ selectedScholarship.benefits }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
-            <a
-              v-if="selectedScholarship.link"
-              :href="selectedScholarship.link"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2 flex-1 group"
+        <div
+          class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl modal-pop"
+          @click.stop
+        >
+          <!-- Modal Header -->
+          <div class="relative h-64 md:h-80 overflow-hidden">
+            <img
+              :src="getModalImage(selectedScholarship)"
+              :alt="selectedScholarship.title"
+              class="w-full h-full object-cover"
             >
-              <ExternalLink class="w-4 h-4 group-hover:scale-110 transition-transform" />
-              Apply on Official Site
-            </a>
-            <button
-              @click="openInquiryForm(selectedScholarship)"
-              class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-6 py-3 rounded-xl text-sm font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2 flex-1 group"
-            >
-              <MessageSquare class="w-4 h-4 group-hover:scale-110 transition-transform" />
-              Request Assistance
-            </button>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
             <button
               @click="closeModal"
-              class="border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-xl text-sm font-semibold hover:bg-gray-50 hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2"
+              class="absolute top-5 right-5 bg-black/50 hover:bg-black/70 rounded-full p-2 transition-all duration-300 hover:scale-110 hover:rotate-90"
             >
-              <X class="w-4 h-4" />
-              Close
+              <X class="w-5 h-5 text-white" />
             </button>
+            <div class="absolute bottom-6 left-6 right-6 text-white">
+              <div class="flex flex-wrap gap-3 mb-3">
+                <span class="bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center gap-1 shadow-lg">
+                  <Trophy class="w-3 h-3" />
+                  Fully Funded
+                </span>
+                <span
+                  class="text-white text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center gap-1 shadow-lg backdrop-blur-md"
+                  :class="selectedScholarship.featured ? 'bg-purple-600/90' : 'bg-blue-600/90'"
+                >
+                  <ExternalLink class="w-3 h-3" />
+                  {{ selectedScholarship.featured ? 'Featured' : 'Scholarship' }}
+                </span>
+                <span class="text-white text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center gap-1 shadow-lg backdrop-blur-md bg-black/50">
+                  <Eye class="w-3 h-3" />
+                  {{ selectedScholarship.views || 0 }}
+                </span>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-bold leading-tight">{{ selectedScholarship.title }}</h2>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Inquiry Modal -->
-    <div
-      v-if="inquiryModalVisible"
-      class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      @click="closeInquiryModal"
-    >
-      <div class="bg-white rounded-2xl max-w-md w-full" @click.stop>
-        <div class="p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-gray-800">Request Assistance</h2>
-            <button @click="closeInquiryModal" class="text-gray-400 hover:text-gray-600">
-              <X class="w-5 h-5" />
-            </button>
-          </div>
-          <p class="text-gray-600 mb-4 text-sm">
-            For <strong>{{ selectedScholarship?.title }}</strong>
-          </p>
-          <form @submit.prevent="submitInquiry">
-            <div class="space-y-3">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                <input type="text" v-model="inquiryForm.fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+          <!-- Modal Content -->
+          <div class="p-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                <Globe class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                <p class="text-xs text-gray-600 font-medium">Country</p>
+                <p class="text-sm font-bold text-purple-700 mt-1">{{ selectedScholarship.country || 'International' }}</p>
               </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                <input type="email" v-model="inquiryForm.email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                <GraduationCap class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                <p class="text-xs text-gray-600 font-medium">Degree</p>
+                <p class="text-sm font-bold text-purple-700 mt-1">{{ selectedScholarship.degree || 'All levels' }}</p>
               </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                <input type="tel" v-model="inquiryForm.phone" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                <Calendar class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                <p class="text-xs text-gray-600 font-medium">Deadline</p>
+                <p class="text-sm font-bold text-purple-700 mt-1">{{ formatDate(selectedScholarship.deadline) || 'Open' }}</p>
               </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
-                <textarea v-model="inquiryForm.message" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-lg"></textarea>
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                <Award class="w-6 h-6 text-purple-700 mx-auto mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                <p class="text-xs text-gray-600 font-medium">Status</p>
+                <p class="text-sm font-bold text-purple-700 mt-1">{{ selectedScholarship.status || 'Active' }}</p>
               </div>
-              <div v-if="inquirySubmitting" class="text-center py-2">
-                <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600"></div>
-              </div>
-              <div v-if="inquirySuccess" class="bg-green-50 text-green-600 p-3 rounded-lg text-sm">
-                {{ inquirySuccessMessage }}
-              </div>
-              <div v-if="inquiryError" class="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
-                {{ inquiryErrorMessage }}
-              </div>
-              <div class="flex gap-3 pt-2">
-                <button type="submit" :disabled="inquirySubmitting" class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-lg">
-                  Submit
-                </button>
-                <button type="button" @click="closeInquiryModal" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg">
-                  Cancel
-                </button>
+              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                <Eye class="w-6 h-6 text-yellow-700 mx-auto mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                <p class="text-xs text-gray-600 font-medium">Views</p>
+                <p class="text-sm font-bold text-yellow-700 mt-1">{{ selectedScholarship.views || 0 }}</p>
               </div>
             </div>
-          </form>
+
+            <div class="prose max-w-none mb-8">
+              <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <BookOpen class="w-5 h-5 text-purple-700" />
+                Scholarship Details
+              </h3>
+
+              <div class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-2 flex items-center gap-1">
+                  <FileText class="w-4 h-4 text-purple-600" />
+                  Description
+                </h4>
+                <div class="text-gray-600 leading-relaxed whitespace-pre-line">
+                  {{ selectedScholarship.description || 'No description provided.' }}
+                </div>
+              </div>
+
+              <div v-if="selectedScholarship.eligibility" class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-2 flex items-center gap-1">
+                  <CheckCircle class="w-4 h-4 text-green-600" />
+                  Eligibility Criteria
+                </h4>
+                <div class="text-gray-600 leading-relaxed whitespace-pre-line">
+                  {{ selectedScholarship.eligibility }}
+                </div>
+              </div>
+
+              <div v-if="selectedScholarship.benefits" class="mb-6">
+                <h4 class="font-semibold text-gray-700 mb-2 flex items-center gap-1">
+                  <Gift class="w-4 h-4 text-yellow-600" />
+                  Benefits
+                </h4>
+                <div class="text-gray-600 leading-relaxed whitespace-pre-line">
+                  {{ selectedScholarship.benefits }}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+              <a
+                v-if="selectedScholarship.link"
+                :href="selectedScholarship.link"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2 flex-1 group"
+              >
+                <ExternalLink class="w-4 h-4 group-hover:scale-110 transition-transform" />
+                Apply on Official Site
+              </a>
+              <button
+                @click="openInquiryForm(selectedScholarship)"
+                class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-6 py-3 rounded-xl text-sm font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2 flex-1 group"
+              >
+                <MessageSquare class="w-4 h-4 group-hover:scale-110 transition-transform" />
+                Request Assistance
+              </button>
+              <button
+                @click="closeModal"
+                class="border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-xl text-sm font-semibold hover:bg-gray-50 hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2"
+              >
+                <X class="w-4 h-4" />
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
+
+    <!-- Inquiry Modal -->
+    <Transition name="modal">
+      <div
+        v-if="inquiryModalVisible"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        @click="closeInquiryModal"
+      >
+        <div class="bg-white rounded-2xl max-w-md w-full modal-pop" @click.stop>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-xl font-bold text-gray-800">Request Assistance</h2>
+              <button @click="closeInquiryModal" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90">
+                <X class="w-5 h-5" />
+              </button>
+            </div>
+            <p class="text-gray-600 mb-4 text-sm">
+              For <strong>{{ selectedScholarship?.title }}</strong>
+            </p>
+            <form @submit.prevent="submitInquiry">
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                  <input type="text" v-model="inquiryForm.fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                  <input type="email" v-model="inquiryForm.email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <input type="tel" v-model="inquiryForm.phone" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+                  <textarea v-model="inquiryForm.message" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"></textarea>
+                </div>
+                <div v-if="inquirySubmitting" class="text-center py-2">
+                  <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600"></div>
+                </div>
+                <Transition name="fade">
+                  <div v-if="inquirySuccess" class="bg-green-50 text-green-600 p-3 rounded-lg text-sm">
+                    {{ inquirySuccessMessage }}
+                  </div>
+                </Transition>
+                <Transition name="fade">
+                  <div v-if="inquiryError" class="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+                    {{ inquiryErrorMessage }}
+                  </div>
+                </Transition>
+                <div class="flex gap-3 pt-2">
+                  <button type="submit" :disabled="inquirySubmitting" class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition hover:-translate-y-0.5">
+                    Submit
+                  </button>
+                  <button type="button" @click="closeInquiryModal" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition hover:-translate-y-0.5">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -448,7 +570,7 @@ import AppHeader from './AppHeader.vue'
 import {
   Search, Globe, GraduationCap, BarChart3, Trophy, Calendar,
   BookOpen, MessageSquare, RefreshCw, X, Award, ExternalLink,
-  AlertCircle, Star, Clock, FileText, CheckCircle, Gift
+  AlertCircle, Star, Clock, FileText, CheckCircle, Gift, Eye
 } from 'lucide-vue-next'
 import { readDatabase, updateDatabase } from '../lib/jsonbin'
 
@@ -471,6 +593,31 @@ const inquiryErrorMessage = ref('')
 const inquiryForm = ref({ fullName: '', email: '', phone: '', message: '' })
 
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80'
+
+/* ================= VIEW TRACKING ================= */
+const VIEWED_KEY = 'goabroad_viewed_scholarships'
+
+function hasViewed(id) {
+  try {
+    const raw = localStorage.getItem(VIEWED_KEY)
+    const ids = raw ? JSON.parse(raw) : []
+    return Array.isArray(ids) && ids.includes(id)
+  } catch {
+    return false
+  }
+}
+
+function markViewed(id) {
+  try {
+    const raw = localStorage.getItem(VIEWED_KEY)
+    const ids = raw ? JSON.parse(raw) : []
+    const list = Array.isArray(ids) ? ids : []
+    if (!list.includes(id)) {
+      list.push(id)
+      localStorage.setItem(VIEWED_KEY, JSON.stringify(list.slice(-500)))
+    }
+  } catch {}
+}
 
 /* ================= COMPUTED ================= */
 const uniqueCountries = computed(() =>
@@ -495,8 +642,10 @@ const filteredScholarships = computed(() => {
 
   if (sortOrder.value === 'newest') {
     filtered.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-  } else {
+  } else if (sortOrder.value === 'oldest') {
     filtered.sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0))
+  } else if (sortOrder.value === 'popular') {
+    filtered.sort((a, b) => (b.views || 0) - (a.views || 0))
   }
 
   return filtered
@@ -532,8 +681,6 @@ const fetchScholarships = async () => {
   try {
     const db = await readDatabase()
     const list = Array.isArray(db.scholarships) ? db.scholarships : []
-
-    // Only show active scholarships (unless none has a status — then show all)
     const active = list.filter(s => (s.status || 'active') === 'active')
     allScholarships.value = active
   } catch (err) {
@@ -549,6 +696,26 @@ const resetFilters = () => {
   searchQuery.value = ''
   selectedCountry.value = ''
   sortOrder.value = 'newest'
+}
+
+/* ================= VIEW COUNT ================= */
+const incrementViews = async (scholarshipId) => {
+  const idx = allScholarships.value.findIndex(s => s.id === scholarshipId)
+  if (idx === -1) return
+
+  allScholarships.value[idx].views = (allScholarships.value[idx].views || 0) + 1
+
+  try {
+    await updateDatabase((db) => ({
+      ...db,
+      scholarships: (db.scholarships || []).map(s =>
+        s.id === scholarshipId ? { ...s, views: (s.views || 0) + 1 } : s
+      )
+    }))
+  } catch (err) {
+    console.warn('[views] Failed to save view count:', err)
+    allScholarships.value[idx].views = Math.max(0, (allScholarships.value[idx].views || 1) - 1)
+  }
 }
 
 /* ================= INQUIRY ================= */
@@ -602,6 +769,11 @@ const openModal = (scholarship) => {
   selectedScholarship.value = scholarship
   modalVisible.value = true
   document.body.style.overflow = 'hidden'
+
+  if (scholarship?.id && !hasViewed(scholarship.id)) {
+    markViewed(scholarship.id)
+    incrementViews(scholarship.id)
+  }
 }
 
 const closeModal = () => {
@@ -648,6 +820,46 @@ onUnmounted(() => {
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
 .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
+/* Ambient motion */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(30px, -30px) scale(1.1); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.15; }
+  50%      { transform: translate(40px, -40px) scale(1.15); opacity: 0.25; }
+}
+@keyframes float-delayed {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.12; }
+  50%      { transform: translate(-50px, -30px) scale(1.1); opacity: 0.22; }
+}
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.animate-float { animation: float 14s ease-in-out infinite; }
+.animate-float-slow { animation: float-slow 16s ease-in-out infinite; }
+.animate-float-delayed { animation: float-delayed 18s ease-in-out infinite; }
+.animate-bounce-slow { animation: bounce-slow 2.5s ease-in-out infinite; }
+
+/* Modal pop-in */
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.94) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-pop { animation: modal-pop 0.4s cubic-bezier(0.22, 1.4, 0.36, 1) both; }
+
+/* Transitions */
+.modal-enter-active { transition: opacity 0.25s ease; }
+.modal-leave-active { transition: opacity 0.2s ease; }
+.modal-enter-from,
+.modal-leave-to { opacity: 0; }
+
+.fade-enter-active, .fade-leave-active { transition: opacity 0.25s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* Custom select arrow */
 select {
   cursor: pointer;
   appearance: none;
@@ -665,4 +877,20 @@ select {
 
 .prose { font-size: 0.95rem; line-height: 1.6; color: #374151; }
 .prose p { margin-bottom: 1rem; }
+
+/* Reduced motion — disable all animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-slow,
+  .animate-float-delayed,
+  .animate-bounce-slow,
+  .modal-pop {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
 </style>

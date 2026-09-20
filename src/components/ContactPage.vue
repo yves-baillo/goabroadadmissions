@@ -40,7 +40,7 @@
                   </div>
                   <div>
                     <h3 class="font-semibold text-gray-800 mb-1">Our Office</h3>
-                    <p class="text-gray-500">KG 541 St, Kigali, Rwanda</p>
+                    <p class="text-gray-500">Batsinda Taxi Park, Kigali, Rwanda</p>
                   </div>
                 </div>
 
@@ -203,16 +203,16 @@
       </div>
     </section>
 
-    <!-- Google Map Section -->
+    <!-- Google Map Section — Batsinda Taxi Park -->
     <section class="py-10 bg-white">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Find Us Here</h2>
-          <p class="text-gray-500">Visit our office for a face-to-face consultation</p>
+          <p class="text-gray-500">Visit our office at Batsinda Taxi Park for a face-to-face consultation</p>
         </div>
         <div class="rounded-xl overflow-hidden shadow-lg h-[400px]">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.475551552338!2d30.104453!3d-1.944089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca76b7b0a1e9d%3A0x8f5c5c5c5c5c5c5c!2sKigali%2C%20Rwanda!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+            src="https://maps.google.com/maps?q=Batsinda%20Taxi%20Park%20Kigali&t=&z=16&ie=UTF8&iwloc=&output=embed"
             width="100%"
             height="100%"
             style="border:0;"
@@ -264,7 +264,6 @@ import axios from 'axios'
 import AppHeader from './AppHeader.vue'
 import { updateDatabase } from '../lib/jsonbin'
 
-// ✅ Optional Vercel backend (leave it if you still use it)
 const API_URL = 'https://newbackend-gamma.vercel.app/api'
 
 const form = reactive({
@@ -299,21 +298,21 @@ const saveMessageLocally = (message) => {
 
 /* ---------- Social media ---------- */
 const socialLinks = [
-  { name: 'YouTube',   url: 'https://youtube.com/@xmaopportunitiesportal?si=d1hFYNlUMgBmqc-J', icon: 'fab fa-youtube',    bgColor: 'bg-red-600 hover:bg-red-700' },
-  { name: 'LinkedIn',  url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/',        icon: 'fab fa-linkedin-in', bgColor: 'bg-blue-700 hover:bg-blue-800' },
-  { name: 'Facebook',  url: 'https://www.facebook.com/share/1JYd3mLj5X/?mibextid=wwXIfr',        icon: 'fab fa-facebook-f',  bgColor: 'bg-blue-600 hover:bg-blue-700' },
-  { name: 'Instagram', url: 'https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr', icon: 'fab fa-instagram', bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600' },
-  { name: 'Twitter',   url: 'https://x.com/GoAbroad_Go',                                          icon: 'fab fa-twitter',     bgColor: 'bg-gray-800 hover:bg-gray-700' },
-  { name: 'TikTok',    url: 'https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5', icon: 'fab fa-tiktok',  bgColor: 'bg-gray-800 hover:bg-gray-700' }
+  { name: 'YouTube',   url: 'https://youtube.com/@goabroadadmissions?si=qSQhGhqrOCEOG7A7', icon: 'fab fa-youtube',    bgColor: 'bg-red-600 hover:bg-red-700' },
+  { name: 'LinkedIn',  url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/',   icon: 'fab fa-linkedin-in', bgColor: 'bg-blue-700 hover:bg-blue-800' },
+  { name: 'Facebook',  url: 'https://www.facebook.com/share/1Hj4121teB/?mibextid=wwXIfr',   icon: 'fab fa-facebook-f',  bgColor: 'bg-blue-600 hover:bg-blue-700' },
+  { name: 'Instagram', url: 'https://www.instagram.com/go_abroad_admissions_rw?stkn=MTI0MGlxa3Uya25icg%3D%3D&utm_source=qr', icon: 'fab fa-instagram', bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600' },
+  { name: 'Twitter',   url: 'https://x.com/GoAbroad_Go',                                     icon: 'fab fa-twitter',     bgColor: 'bg-gray-800 hover:bg-gray-700' },
+  { name: 'TikTok',    url: 'https://www.tiktok.com/@goabroadadmissions?_r=1&_t=ZP-99tiKvjCr43', icon: 'fab fa-tiktok',  bgColor: 'bg-gray-800 hover:bg-gray-700' }
 ]
 
 /* ---------- FAQ ---------- */
 const faqs = ref([
-  { question: 'How long does it take to get a response?',      answer: 'We typically respond to all inquiries within 24-48 business hours. For urgent matters, please call us directly.' },
-  { question: 'Do you offer free consultation?',                answer: 'Yes, we offer a free 30-minute initial consultation to understand your needs and explain how we can help you achieve your study abroad goals.' },
-  { question: 'What countries do you help with?',                answer: 'We assist students with applications to universities in the USA, UK, Canada, Australia, China, Hungary, Saudi Arabia, Germany, France, and many other destinations.' },
-  { question: 'Can you help with scholarship applications?',     answer: 'Absolutely! Scholarship application assistance is one of our core services. We help identify suitable scholarships and guide you through the entire application process.' },
-  { question: 'Is there a fee for your services?',               answer: 'We offer both free resources and premium consultation packages. Our initial consultation is free, and we provide transparent pricing for all our services.' }
+  { question: 'How long does it take to get a response?',   answer: 'We typically respond to all inquiries within 24-48 business hours. For urgent matters, please call us directly.' },
+  { question: 'Do you offer free consultation?',             answer: 'Yes, we offer a free 30-minute initial consultation to understand your needs and explain how we can help you achieve your study abroad goals.' },
+  { question: 'What countries do you help with?',            answer: 'We assist students with applications to universities in the USA, UK, Canada, Australia, China, Hungary, Saudi Arabia, Germany, France, and many other destinations.' },
+  { question: 'Can you help with scholarship applications?', answer: 'Absolutely! Scholarship application assistance is one of our core services. We help identify suitable scholarships and guide you through the entire application process.' },
+  { question: 'Is there a fee for your services?',           answer: 'We offer both free resources and premium consultation packages. Our initial consultation is free, and we provide transparent pricing for all our services.' }
 ])
 
 const openFaqIndex = ref(null)
@@ -327,7 +326,6 @@ const submitForm = async () => {
   showError.value = false
   errorMessage.value = ''
 
-  // Validation
   if (!form.fullName || !form.email || !form.subject || !form.message) {
     errorMessage.value = 'Please fill in all required fields'
     showError.value = true
@@ -344,7 +342,6 @@ const submitForm = async () => {
 
   isSubmitting.value = true
 
-  // ✅ Field names match what AdminDashboard reads
   const message = {
     id: `contact-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     full_name: form.fullName.trim(),
@@ -356,29 +353,22 @@ const submitForm = async () => {
     status: 'new'
   }
 
-  let savedToCloud = false
-
-  // 1) Write to JSONBin → this is what the dashboard reads
   try {
     await updateDatabase((db) => ({
       ...db,
       contacts: [message, ...(Array.isArray(db.contacts) ? db.contacts : [])]
     }))
-    savedToCloud = true
   } catch (storageError) {
     console.warn('JSONBin write failed, saving locally:', storageError)
     saveMessageLocally(message)
   }
 
-  // 2) Optional: also hit the Vercel backend (non-fatal if it fails)
   try {
     await axios.post(`${API_URL}/contact`, message, { timeout: 15000 })
   } catch (backendError) {
     console.warn('Contact API unavailable (non-fatal):', backendError)
   }
 
-  // Always show success — the message is either in the cloud or in localStorage
-  // (the dashboard merges both sources, so the user's message will appear either way)
   showSuccess.value = true
   Object.assign(form, { fullName: '', email: '', phone: '', subject: '', message: '' })
   setTimeout(() => (showSuccess.value = false), 5000)
